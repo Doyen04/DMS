@@ -4,7 +4,7 @@ import Link from "next/link";
 
 const Header = () => {
     return (
-        <div className="bg-amber-200 flex items-center justify-between h-14 w-full px-5 border-b-1 border-b-blue">
+        <div className="bg-[#e6f0ff] flex items-center justify-between h-14 w-full px-5 border-b-1 border-b-blue">
             <div>
                 <Link href={'/'}>
                     FileHub
