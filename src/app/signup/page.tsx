@@ -8,7 +8,7 @@ import Link from "next/link";
 
 const SignUp = () => {
     return (
-        <div className="w-screen h-screen flex flex-col items-center gap-7.5">
+        <div className="w-screen h-screen flex flex-col items-center gap-16.5">
             <nav className="w-full h-14 px-19 flex bg-[#e6f0ff] shadow-xs shadow-gray-400" >
                 <Link className=" flex items-center gap-1.5 " href='/'>
                     <Image src={'./arrow_back.svg'} width={20} height={20} alt='icon' />
@@ -28,7 +28,7 @@ const SignUp = () => {
                     <FormItem>
                         <Input type="password" name="" id="password" labelText='Password' placeholder="Enter your password" iconUrl="/lock.svg" />
                     </FormItem>
-                    <input className="bg-[#0c7ff2] rounded-sm p-2 text-white" type="button" value="Sign Up" />
+                    <input className="bg-[#0c7ff2] rounded-sm p-2 text-white text-sm" type="button" value="Sign Up" />
                     <p className="text-xs text-center w-full">
                         By signing up, you agree to our
                         <span className="text-[#0c7ff2] font-medium"> Terms of Service </span>
