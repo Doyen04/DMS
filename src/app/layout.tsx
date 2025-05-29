@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Inter } from "next/font/google";
+import { Geist, Inter, Explora } from "next/font/google";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -11,6 +11,7 @@ const inter = Inter({
     variable: "--font-inter",
     subsets: ["latin"],
 });
+
 
 export const metadata: Metadata = {
     title: "File Hub",
@@ -24,9 +25,7 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en">
-            <body
-                className={`${geistSans.variable} ${inter.variable} antialiased`}
-            >
+            <body className={`antialiased bg-[#f8fafc]`}>
                 {children}
             </body>
         </html>
