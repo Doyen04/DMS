@@ -32,12 +32,23 @@ export default async function createUser(prevState: State, formData: FormData): 
     console.log(result, result.error?.flatten().fieldErrors);
 
     if (!result.success) {
-        return { errors: result.error.flatten().fieldErrors, values: data,submitted: false, success: false };
+        return { errors: result.error.flatten().fieldErrors, values: data, submitted: false, success: false };
     }
     let hashedPassword = ''
     if (data.password) hashedPassword = await bcrypt.hash(data?.password, 10);
 
     if (data.email && hashedPassword && data.fullname) {
+        const existingUser = await prisma.user.findUnique({
+            where: { email: data.email }
+        });
+        if (existingUser) {
+            return {
+                errors: {},
+                values: data,
+                submitted: true,
+                success: false
+            };
+        }
         try {
             let result = await prisma.user.create({
                 data: {
@@ -53,8 +64,8 @@ export default async function createUser(prevState: State, formData: FormData): 
                 success: true
             }
         } catch (err) {
-             return {
-                errors: { },
+            return {
+                errors: {},
                 values: data,
                 submitted: true,
                 success: false
