@@ -2,6 +2,10 @@ import type { Metadata } from "next";
 import { Geist, Inter, Explora } from "next/font/google";
 import "./globals.css";
 
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+
 const geistSans = Geist({
     variable: "--font-geist-sans",
     subsets: ["latin"],
@@ -27,6 +31,7 @@ export default function RootLayout({
         <html lang="en">
             <body className={`antialiased bg-[#f8fafc]`}>
                 {children}
+                <ToastContainer />
             </body>
         </html>
     );
