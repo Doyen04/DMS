@@ -19,9 +19,9 @@ datasource db {
 }
 // Example data model
 model User {
-  id        Int      @id @default(autoincrement())
+  id        String   @id @default(cuid())
   createdAt DateTime @default(now())
   email     String   @unique
-  fullname      String?
-  password String
+  fullname  String?
+  password  String
 }
