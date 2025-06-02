@@ -52,9 +52,9 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             // Block sign-in based on some condition
             return !!user?.email
         },
-        async redirect({ url, baseUrl }) {
-            return url.startsWith(baseUrl) ? url : baseUrl
-        },
+        // async redirect({ url, baseUrl }) {
+        //     return url.startsWith(baseUrl) ? url : baseUrl
+        // },
         async jwt({ token, user }) {
             if (user) {
                 token.id = user.id
@@ -67,10 +67,10 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             session.user.email = token.email as string
             return session
         },
-        // async authorized({ auth, request }) {
-        //     // Optional: middleware-only access control
-        //     return !!auth?.user
-        // }
+        async authorized({ auth, request }) {
+            // Optional: middleware-only access control
+            return !!auth?.user
+        }
     },
     events: {
         async signIn({ user }) {
