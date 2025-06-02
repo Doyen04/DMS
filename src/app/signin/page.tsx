@@ -1,9 +1,9 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import FormItem from "@/ui/formItem";
 import Input from "@/ui/input";
 import Footer from "@/component/footer";
+import Button from "@/ui/button";
 
 const SignIn = () => {
     return (
@@ -18,14 +18,22 @@ const SignIn = () => {
                 <div className="text-xl font-extrabold font-inter">Sign in to FileServer</div>
                 <div className="text-center w-[290px] text-xs">Enter your credential to access your account.</div>
                 <form action="" className="flex flex-col gap-4 p-4 w-full">
-                    <FormItem>
-                        <Input type="email" name="" id="email" labelText='Email' placeholder="Enter your email" iconUrl="/mail.svg" />
-                    </FormItem>
-                    <FormItem>
-                        <Input type="password" name="" id="password" labelText='Password' placeholder="Enter your password" iconUrl="/lock.svg" />
-                    </FormItem>
+                    <Input type="email" name="email"
+                        defaultValue={''}
+                        error={[]}
+                        labelText='Email'
+                        placeholder="Enter your email"
+                        iconUrl="/mail.svg" />
+
+                    <Input type="password" name="password"
+                        defaultValue={''}
+                        error={[]}
+                        labelText='Password'
+                        placeholder="Enter your password"
+                        iconUrl="/lock.svg" />
+
                     <p className="text-[#0c7ff2] font-medium text-xs"><Link href={'/reset'}>Forgot password?</Link></p>
-                    <input className="bg-[#0c7ff2] rounded-sm p-2 text-white text-sm" type="button" value="Sign In" />
+                    <Button type="submit" value={'Sign In'}/>
 
                     <p className="w-full text-center text-sm">
                         Don't have an account?

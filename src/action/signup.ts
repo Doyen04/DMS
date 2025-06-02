@@ -3,7 +3,6 @@
 import prisma from '@/lib/prisma'
 import userSchema from '@/zodSchema/userSchema';
 import * as bcrypt from 'bcryptjs'
-import { toast } from 'react-toastify';
 
 
 interface State {
