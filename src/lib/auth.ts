@@ -19,7 +19,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
                 if (!parsedCredentials.success) return null
 
                 const { email, password } = parsedCredentials.data;
-
                 const user = await prisma.user.findUnique(
                     {
                         where: {
@@ -34,7 +33,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
 
                 // return user object with their profile data
-                return { id: user.id, fullname: user.fullname, email: user.email}
+                return { id: user.id, fullname: user.fullname, email: user.email }
             },
 
         }),
@@ -67,14 +66,15 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             session.user.email = token.email as string
             return session
         },
-        
+
     },
     events: {
         async signIn({ user }) {
             console.log("User signed in:", user.email)
         },
-        async signOut({ token }) {
-            console.log("User signed out:", token?.email)
+        async signOut(params) {
+            const token = 'token' in params ? params.token : null;
+            console.log("User signed out:", token?.email || "Session ended")
         },
         async createUser({ user }) {
             console.log("New user created:", user.email)

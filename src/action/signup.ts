@@ -31,7 +31,12 @@ export default async function createUser(prevState: State, formData: FormData): 
     console.log(result, result.error?.flatten().fieldErrors);
 
     if (!result.success) {
-        return { errors: result.error.flatten().fieldErrors, values: data, submitted: false, success: false };
+        return {
+            errors: result.error.flatten().fieldErrors,
+            values: data,
+            submitted: false,
+            success: false
+        };
     }
     let hashedPassword = ''
     if (data.password) hashedPassword = await bcrypt.hash(data?.password, 10);
@@ -40,6 +45,7 @@ export default async function createUser(prevState: State, formData: FormData): 
         const existingUser = await prisma.user.findUnique({
             where: { email: data.email }
         });
+        
         if (existingUser) {
             return {
                 errors: {},
@@ -56,6 +62,7 @@ export default async function createUser(prevState: State, formData: FormData): 
                     password: hashedPassword,
                 },
             });
+            if (!result) console.log('user creation failed')
             return {
                 errors: {},
                 values: data,

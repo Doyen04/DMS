@@ -1,12 +1,51 @@
-import React from "react";
+'use client'
+
+import React, { useActionState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import Input from "@/ui/input";
 import Footer from "@/component/footer";
 import Button from "@/ui/button";
-import { signIn } from "@/lib/auth";
+import handleSignIn from "@/action/signin";
+import { toast } from "react-toastify";
+import router from "next/router";
+
+
+interface State {
+    errors: {
+        email?: string[] | undefined;
+        password?: string[] | undefined;
+    },
+    values: {
+        email: string | undefined;
+        password: string | undefined;
+    },
+    submitted: boolean,
+    success: boolean;
+};
+const initialState: State = {
+    errors: {
+        email: undefined,
+        password: undefined,
+    },
+    values: {
+        email: undefined,
+        password: undefined,
+    },
+    submitted: false,
+    success: false
+}
 
 const SignIn = () => {
+    const [state, formAction] = useActionState(handleSignIn, initialState);
+
+    useEffect(() => {
+        console.log(state.submitted, state.success);
+        
+        if (state.submitted && !state.success) {
+            toast.error('Signin failed');
+        }
+    }, [state]);
     return (
         <div className="w-screen h-screen flex flex-col items-center gap-16.5">
             <nav className="w-full h-14 px-19 flex bg-[#e6f0ff] shadow-xs shadow-gray-400" >
@@ -18,20 +57,17 @@ const SignIn = () => {
             <div className="w-[350px] h-[410px] bg-white border-2 border-[#e6f0ff] shadow-lg shadow-gray-500 flex flex-col gap-2 items-center p-2 pt-9 rounded-lg">
                 <div className="text-xl font-extrabold font-inter">Sign in to FileServer</div>
                 <div className="text-center w-[290px] text-xs">Enter your credential to access your account.</div>
-                <form action={async () => {
-                    "use server"
-                    await signIn()
-                }} className="flex flex-col gap-4 p-4 w-full">
+                <form action={formAction} className="flex flex-col gap-4 p-4 w-full">
                     <Input type="email" name="email"
-                        defaultValue={''}
-                        error={[]}
+                        defaultValue={state.values?.email}
+                        error={state.errors?.email}
                         labelText='Email'
                         placeholder="Enter your email"
                         iconUrl="/mail.svg" />
 
                     <Input type="password" name="password"
-                        defaultValue={''}
-                        error={[]}
+                        defaultValue={state.values?.password}
+                        error={state.errors?.password}
                         labelText='Password'
                         placeholder="Enter your password"
                         iconUrl="/lock.svg" />
