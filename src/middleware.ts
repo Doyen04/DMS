@@ -8,6 +8,7 @@ export default auth((req) => {
     // Public routes that don't require authentication
     const publicRoutes = [
         "/",
+        "/reset",
         "/signin",
         "/signup",
         "/error"
