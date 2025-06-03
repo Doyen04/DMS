@@ -8,7 +8,7 @@ import Footer from "@/component/footer";
 import Button from "@/ui/button";
 import handleSignIn from "@/action/signin";
 import { toast } from "react-toastify";
-import router from "next/router";
+
 
 
 interface State {
@@ -40,7 +40,6 @@ const SignIn = () => {
     const [state, formAction] = useActionState(handleSignIn, initialState);
 
     useEffect(() => {
-        console.log(state.submitted, state.success);
         
         if (state.submitted && !state.success) {
             toast.error('Signin failed');
