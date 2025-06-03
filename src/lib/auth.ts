@@ -34,7 +34,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
 
                 // return user object with their profile data
-                return { id: user.id, fullname: user.fullname, }
+                return { id: user.id, fullname: user.fullname, email: user.email}
             },
 
         }),
@@ -44,8 +44,8 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         strategy: "jwt"
     },
     pages: {
-        signIn: "/auth/signin",
-        error: "/auth/error"
+        signIn: "/signin",
+        error: "/error"
     },
     callbacks: {
         async signIn({ user, account, profile, email, credentials }) {
@@ -67,10 +67,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             session.user.email = token.email as string
             return session
         },
-        async authorized({ auth, request }) {
-            // Optional: middleware-only access control
-            return !!auth?.user
-        }
+        
     },
     events: {
         async signIn({ user }) {

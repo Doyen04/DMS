@@ -1,4 +1,5 @@
 import { auth } from "@/lib/auth"
+import { NextResponse } from "next/server"
 
 export default auth((req) => {
     const { nextUrl } = req
@@ -7,11 +8,13 @@ export default auth((req) => {
     // Public routes that don't require authentication
     const publicRoutes = [
         "/",
-        "/auth/signin",
-        "/auth/signup",
-        "/auth/error"
+        "/signin",
+        "/signup",
+        "/error"
     ]
-
+    if (nextUrl.pathname.startsWith('/api/')) {
+        return NextResponse.next()
+    }
     // Check if current path is public
     const isPublicRoute = publicRoutes.some(route =>
         nextUrl.pathname === route || nextUrl.pathname.startsWith(route)
@@ -19,13 +22,14 @@ export default auth((req) => {
 
     // Allow access to public routes
     if (isPublicRoute) {
-        return
+        return NextResponse.next()
     }
 
     // Redirect to signin if not authenticated and trying to access protected route
     if (!isLoggedIn) {
-        return Response.redirect(new URL("/auth/signin", nextUrl))
+        return NextResponse.redirect(new URL("api/auth/signin", nextUrl))
     }
+    return NextResponse.next()
 })
 
 // export const runtime = 'edge';

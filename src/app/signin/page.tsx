@@ -4,6 +4,7 @@ import Image from "next/image";
 import Input from "@/ui/input";
 import Footer from "@/component/footer";
 import Button from "@/ui/button";
+import { signIn } from "@/lib/auth";
 
 const SignIn = () => {
     return (
@@ -17,7 +18,10 @@ const SignIn = () => {
             <div className="w-[350px] h-[410px] bg-white border-2 border-[#e6f0ff] shadow-lg shadow-gray-500 flex flex-col gap-2 items-center p-2 pt-9 rounded-lg">
                 <div className="text-xl font-extrabold font-inter">Sign in to FileServer</div>
                 <div className="text-center w-[290px] text-xs">Enter your credential to access your account.</div>
-                <form action="" className="flex flex-col gap-4 p-4 w-full">
+                <form action={async () => {
+                    "use server"
+                    await signIn()
+                }} className="flex flex-col gap-4 p-4 w-full">
                     <Input type="email" name="email"
                         defaultValue={''}
                         error={[]}
@@ -33,7 +37,7 @@ const SignIn = () => {
                         iconUrl="/lock.svg" />
 
                     <p className="text-[#0c7ff2] font-medium text-xs"><Link href={'/reset'}>Forgot password?</Link></p>
-                    <Button type="submit" value={'Sign In'}/>
+                    <Button type="submit" value={'Sign In'} />
 
                     <p className="w-full text-center text-sm">
                         Don't have an account?
