@@ -15,7 +15,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
                 password: { label: "Password", type: "password" },
             },
             authorize: async (credentials) => {
-                let parsedCredentials = loginSchema.safeParse(credentials)
+                const parsedCredentials = loginSchema.safeParse(credentials)
                 if (!parsedCredentials.success) return null
 
                 const { email, password } = parsedCredentials.data;
@@ -47,7 +47,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         error: "/error"
     },
     callbacks: {
-        async signIn({ user, account, profile, email, credentials }) {
+        async signIn({ user}) {
             // Block sign-in based on some condition
             return !!user?.email
         },
