@@ -2,8 +2,6 @@
 
 import React, { forwardRef, useState } from "react"
 import { useFormStatus } from 'react-dom';
-import { twMerge } from "tailwind-merge"
-import Image from "next/image"
 
 // TODO: EXPLAIN CODE AND WHY
 
@@ -13,7 +11,6 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 }
 
 const Button = forwardRef<HTMLInputElement, InputProps>(({
-    className,
     type,
     id,
     value,
