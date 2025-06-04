@@ -49,6 +49,7 @@ export async function verifyResetToken(token: string) {
             } 
         };
     } catch (error) {
+        console.log(error);
         return { valid: false, error: 'Invalid token' };
     }
 }

@@ -31,12 +31,12 @@ export const ResetEmailTemplate: React.FC<Readonly<EmailTemplateProps>> = ({
                 This link will expire in 24 hours for security reasons.
             </p>
             <p className="text-gray-600 leading-relaxed">
-                If you didn't request a password reset, please ignore this email. Your password will remain unchanged.
+                If you didn&apos;t request a password reset, please ignore this email. Your password will remain unchanged.
             </p>
         </div>
         <div className="border-t border-gray-200 pt-5 text-xs text-gray-500">
             <p>
-                If you're having trouble clicking the button, copy and paste the URL below into your web browser:
+                If you&apos;re having trouble clicking the button, copy and paste the URL below into your web browser:
             </p>
             <p className="break-all">{resetUrl}</p>
             <p className="mt-5">
