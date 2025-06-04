@@ -20,6 +20,8 @@ export async function sendResetEmail(user: User | null): Promise<SendResetEmailR
             success: false
         };
     }
+    console.log(process.env.FROM_EMAIL);
+    
     if (!process.env.FROM_EMAIL) {
         return {
             error: 'Sender email not configured',
