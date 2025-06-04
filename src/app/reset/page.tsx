@@ -40,6 +40,9 @@ const Reset = () => {
             if (state.submitted && !state.success) {
                 toast.error('Request Failed.');
             }
+            if(state.submitted && state.success){
+                toast.success('Email Reset Link Sent')
+            }
         }, [state]);
     return (
         <div className="w-screen h-screen flex flex-col items-center gap-16.5">

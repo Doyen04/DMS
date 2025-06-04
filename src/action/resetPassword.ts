@@ -1,6 +1,6 @@
 'use server'
 
-// import prisma from "@/lib/prisma";
+import prisma from "@/lib/prisma";
 import { sendResetEmail } from "@/lib/sendResetMail";
 import emailSchema from "@/zodSchema/emailSchema";
 
@@ -22,12 +22,12 @@ const handleResetPassword = async (prevState: State, formData: FormData) => {
 
     const validation = emailSchema.safeParse({ email });
 
-    // const user = await prisma.user.findUnique(
-    //     {
-    //         where: {
-    //             email: email
-    //         }
-    //     })
+    const user = await prisma.user.findUnique(
+        {
+            where: {
+                email: email
+            }
+        })
 
     if (!validation.success) {
         const result = validation.error.flatten().fieldErrors;
@@ -42,7 +42,7 @@ const handleResetPassword = async (prevState: State, formData: FormData) => {
     }
 
     try {
-        const result = await sendResetEmail(email, 'solaopeyemi')
+        const result = await sendResetEmail(user)
         console.log(result);
         
         if (result.error) {
