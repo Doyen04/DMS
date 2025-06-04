@@ -20,9 +20,7 @@ export async function sendResetEmail(user: User | null): Promise<SendResetEmailR
             success: false
         };
     }
-    console.log(process.env.FROM_EMAIL);
-    
-    if (!process.env.FROM_EMAIL) {
+    if (!process.env.EMAIL_FROM) {
         return {
             error: 'Sender email not configured',
             data: null,
@@ -33,7 +31,7 @@ export async function sendResetEmail(user: User | null): Promise<SendResetEmailR
         const resetUrl: string = await createResetLink(user.email, user.id);
     
         const { data, error } = await resend.emails.send({
-            from: `DMS Support <${process.env.FROM_EMAIL}>`,
+            from: `DMS Support <${process.env.EMAIL_FROM}>`,
             to: [user.email],
             subject: 'Password Reset Request',
             react: await ResetEmailTemplate({ firstName: user.fullname as string, resetUrl: resetUrl }),
