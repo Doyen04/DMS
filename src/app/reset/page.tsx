@@ -53,7 +53,7 @@ const Reset = () => {
                 <Image src={'/lock.png'} width={50} height={50} alt="lock" />
                 <div className="text-xl font-extrabold font-inter">Reset Your Password</div>
                 <div className="text-center w-[280px] text-xs leading-normal">
-                    No worries! Enter the email address associated with your account, and we'll send you a link to reset your password.
+                    No worries! Enter the email address associated with your account, and we&apos;ll send you a link to reset your password.
                 </div>
                 <form action={formAction} className="flex flex-col gap-4 p-4 w-full">
 

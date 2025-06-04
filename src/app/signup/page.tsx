@@ -45,8 +45,6 @@ const SignUp = () => {
     const router = useRouter()
 
     useEffect(() => {
-        console.log(pending, state);
-
         if (state.submitted && !state.success) {
             toast.error('Signup failed');
         }
@@ -54,7 +52,7 @@ const SignUp = () => {
             router.push('/signin')
             toast.success('Signup successful');
         }
-    }, [state]);
+    }, [state, router]);
     return (
         <div className="w-screen h-screen flex flex-col items-center gap-16.5">
             <nav className="w-full h-14 px-19 flex bg-[#e6f0ff] shadow-xs shadow-gray-400" >

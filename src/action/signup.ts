@@ -55,7 +55,7 @@ export default async function createUser(prevState: State, formData: FormData): 
             };
         }
         try {
-            let result = await prisma.user.create({
+            const result = await prisma.user.create({
                 data: {
                     fullname: data.fullname,
                     email: data.email,
@@ -70,6 +70,7 @@ export default async function createUser(prevState: State, formData: FormData): 
                 success: true
             }
         } catch (err) {
+            console.log(err);
             return {
                 errors: {},
                 values: data,

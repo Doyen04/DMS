@@ -16,18 +16,6 @@ interface State {
     submitted: boolean,
     success: boolean;
 };
-const initialState: State = {
-    errors: {
-        email: undefined,
-        password: undefined,
-    },
-    values: {
-        email: undefined,
-        password: undefined,
-    },
-    submitted: false,
-    success: false
-}
 
 const handleSignIn = async (prevState: State, formData: FormData) => {
 
@@ -51,7 +39,7 @@ const handleSignIn = async (prevState: State, formData: FormData) => {
     }
 
     try {
-        const result = await signIn('credentials',
+        await signIn('credentials',
             {
                 email,
                 password,

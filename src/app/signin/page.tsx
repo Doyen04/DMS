@@ -75,7 +75,7 @@ const SignIn = () => {
                     <Button type="submit" value={'Sign In'} />
 
                     <p className="w-full text-center text-sm">
-                        Don't have an account?
+                        Don&apos;t have an account?
                         <span className="text-[#0c7ff2] font-medium">
                             <Link href={'/signup'}> Sign Up</Link>
                         </span>

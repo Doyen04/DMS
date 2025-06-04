@@ -1,6 +1,6 @@
 'use server'
 
-import prisma from "@/lib/prisma";
+// import prisma from "@/lib/prisma";
 import { sendResetEmail } from "@/lib/sendResetMail";
 import emailSchema from "@/zodSchema/emailSchema";
 
@@ -15,16 +15,6 @@ interface State {
     submitted: boolean,
     success: boolean;
 };
-const initialState: State = {
-    error: {
-        email: undefined,
-    },
-    values: {
-        email: undefined,
-    },
-    submitted: false,
-    success: false
-}
 
 const handleResetPassword = async (prevState: State, formData: FormData) => {
 
@@ -72,7 +62,8 @@ const handleResetPassword = async (prevState: State, formData: FormData) => {
         }
 
 
-    } catch (error: any) {
+    } catch (error) {
+        console.log(error);
         return {
             error: {},
             values: {

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Inter, Explora } from "next/font/google";
+import { Geist, Inter } from "next/font/google";
 import "./globals.css";
 
 import { ToastContainer } from "react-toastify";
@@ -29,7 +29,7 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en">
-            <body className={`antialiased bg-[#f8fafc]`}>
+            <body className={`${geistSans.variable} ${inter.variable} antialiased bg-[#f8fafc]`}>
                 {children}
                 <ToastContainer />
             </body>
