@@ -43,10 +43,10 @@ const handleSignIn = async (prevState: State, formData: FormData) => {
             {
                 email,
                 password,
-                redirectTo : '/'
+                redirectTo: '/'
             }
         )
-        
+
         return {
             errors: {},
             values: { email, password },
@@ -54,9 +54,10 @@ const handleSignIn = async (prevState: State, formData: FormData) => {
             success: true, // Set this to true
         };
 
-    } catch (error:any) {
-        
-        if (error.digest?.includes('NEXT_REDIRECT')) {
+    } catch (error: unknown) {
+
+        if (error && typeof error === 'object' && 'digest' in error &&
+            typeof error.digest === 'string' && error.digest.includes('NEXT_REDIRECT')) {
             // Redirect is happening, let it continue
             throw error; // Re-throw to let Next.js handle the redirect
         }

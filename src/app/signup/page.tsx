@@ -41,7 +41,7 @@ const initialState: State = {
 }
 
 const SignUp = () => {
-    const [state, formAction, pending,] = useActionState(createUser, initialState);
+    const [state, formAction,] = useActionState(createUser, initialState);
     const router = useRouter()
 
     useEffect(() => {
