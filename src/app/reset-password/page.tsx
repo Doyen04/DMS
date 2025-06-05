@@ -20,6 +20,7 @@ const ResetPasswordForm: React.FC<SearchProps> = async ({ searchParams }) => {
         if (!valid) return <ErrorLinkPage />
         return <ResetPassword data={data} />
     } catch (error) {
+        console.log(error);
         return <ErrorLinkPage />
     }
 };

@@ -45,7 +45,7 @@ interface ResetPasswordProps {
 
 const ResetPassword: React.FC<ResetPasswordProps> = ({ data }) => {
 
-    const actionHandler = async (prevState: any, formData: FormData) => {
+    const actionHandler = async (prevState: State, formData: FormData) => {
         return submitNewPassword(prevState, formData, data?.userId as string);
     };
     const [state, formAction] = useActionState(actionHandler, initialState);
