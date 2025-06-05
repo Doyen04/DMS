@@ -8,9 +8,9 @@ import ResetPassword from "./_page";
 
 // Create a separate component for the form to use useSearchParams
 interface SearchProps {
-    searchParams: {
-        token?: string;
-    };
+    searchParams: Promise<{
+        token?: string | undefined;
+    }>;
 }
 const ResetPasswordForm: React.FC<SearchProps> = async ({ searchParams }) => {
     const { token } = await searchParams
