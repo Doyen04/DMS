@@ -1,26 +1,12 @@
 'use server'
 
 import prisma from '@/lib/prisma'
+import { SignUpState } from '@/types/auth';
 import userSchema from '@/zodSchema/userSchema';
 import * as bcrypt from 'bcryptjs'
 
 
-interface State {
-    errors: {
-        fullname?: string[] | undefined;
-        email?: string[] | undefined;
-        password?: string[] | undefined;
-    },
-    values: {
-        fullname: string | undefined;
-        email: string | undefined;
-        password: string | undefined;
-    },
-    submitted: boolean,
-    success: boolean;
-};
-
-export default async function createUser(prevState: State, formData: FormData): Promise<State> {
+export default async function createUser(prevState: SignUpState, formData: FormData): Promise<SignUpState> {
     const data = {
         fullname: formData.get('fullname')?.toString(),
         email: formData.get('email')?.toString(),

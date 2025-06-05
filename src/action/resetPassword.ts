@@ -2,21 +2,12 @@
 
 import prisma from "@/lib/prisma";
 import { sendResetEmail } from "@/lib/sendResetMail";
+import { ResetState } from "@/types/auth";
 import emailSchema from "@/zodSchema/emailSchema";
 
 
-interface State {
-    error: {
-        email?: string[] | undefined;
-    },
-    values: {
-        email: string | undefined;
-    },
-    submitted: boolean,
-    success: boolean;
-};
 
-const handleResetPassword = async (prevState: State, formData: FormData) => {
+const handleResetPassword = async (prevState: ResetState, formData: FormData): Promise<ResetState>  => {
 
     const email = formData.get("email") as string
 

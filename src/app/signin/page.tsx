@@ -8,36 +8,11 @@ import Footer from "@/component/footer";
 import Button from "@/ui/button";
 import handleSignIn from "@/action/signin";
 import { toast } from "react-toastify";
+import { initialSignInState } from "@/types/auth";
 
-
-
-interface State {
-    errors: {
-        email?: string[] | undefined;
-        password?: string[] | undefined;
-    },
-    values: {
-        email: string | undefined;
-        password: string | undefined;
-    },
-    submitted: boolean,
-    success: boolean;
-};
-const initialState: State = {
-    errors: {
-        email: undefined,
-        password: undefined,
-    },
-    values: {
-        email: undefined,
-        password: undefined,
-    },
-    submitted: false,
-    success: false
-}
 
 const SignIn = () => {
-    const [state, formAction] = useActionState(handleSignIn, initialState);
+    const [state, formAction] = useActionState(handleSignIn, initialSignInState);
 
     useEffect(() => {
         

@@ -8,32 +8,11 @@ import Footer from "@/component/footer";
 import Button from "@/ui/button";
 import handleResetPassword from "@/action/resetPassword";
 import { toast } from "react-toastify";
+import { initialResetState } from "@/types/auth";
 
-
-
-interface State {
-    error: {
-        email?: string[] | undefined;
-    },
-    values: {
-        email: string | undefined;
-    },
-    submitted: boolean,
-    success: boolean;
-};
-const initialState: State = {
-    error: {
-        email: undefined,
-    },
-    values: {
-        email: undefined,
-    },
-    submitted: false,
-    success: false
-}
 
 const Reset = () => {
-    const [state, formAction] = useActionState(handleResetPassword, initialState);
+    const [state, formAction] = useActionState(handleResetPassword, initialResetState);
     
     useEffect(() => {
             

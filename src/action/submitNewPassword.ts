@@ -1,30 +1,18 @@
 'use server'
 
 import prisma from '@/lib/prisma'
+import { ResetPasswordState } from '@/types/auth';
 import resetPasswordSchema from '@/zodSchema/resetPasswordSchema';
 import * as bcrypt from 'bcryptjs'
 
 
-interface State {
-    errors: {
-        password?: string[] | undefined;
-        confirmPassword?: string[] | undefined;
-    },
-    values: {
-        password: string | undefined;
-        confirmPassword: string | undefined;
-    },
-    submitted: boolean,
-    success: boolean;
-};
-
-export default async function submitNewPassword(prevState: State, formData: FormData, userId: string): Promise<State> {
+export default async function submitNewPassword(prevState: ResetPasswordState, formData: FormData, userId: string): Promise<ResetPasswordState> {
 
     const data = {
         password: formData.get('password') as string,
         confirmPassword: formData.get('confirmPassword') as string
     }
-    
+
     if (!userId) {
         return {
             errors: { password: ['Invalid user session'] },

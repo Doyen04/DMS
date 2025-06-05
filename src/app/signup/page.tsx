@@ -9,39 +9,12 @@ import createUser from "@/action/signup";
 import Button from "@/ui/button";
 import { toast } from "react-toastify";
 import { useRouter } from 'next/navigation'
+import { initialSignUpState } from '@/types/auth'
 
 
-interface State {
-    errors: {
-        fullname?: string[] | undefined;
-        email?: string[] | undefined;
-        password?: string[] | undefined;
-    },
-    values: {
-        fullname: string | undefined;
-        email: string | undefined;
-        password: string | undefined;
-    },
-    submitted: boolean,
-    success: boolean;
-};
-const initialState: State = {
-    errors: {
-        fullname: undefined,
-        email: undefined,
-        password: undefined,
-    },
-    values: {
-        fullname: undefined,
-        email: undefined,
-        password: undefined,
-    },
-    submitted: false,
-    success: false
-}
 
 const SignUp = () => {
-    const [state, formAction,] = useActionState(createUser, initialState);
+    const [state, formAction,] = useActionState(createUser, initialSignUpState);
     const router = useRouter()
 
     useEffect(() => {

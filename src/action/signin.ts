@@ -1,23 +1,11 @@
 'use server'
 
 import { signIn } from "@/lib/auth";
+import { SignInState } from "@/types/auth";
 import loginSchema from "@/zodSchema/loginSchema";
 
 
-interface State {
-    errors: {
-        email?: string[] | undefined;
-        password?: string[] | undefined;
-    },
-    values: {
-        email: string | undefined;
-        password: string | undefined;
-    },
-    submitted: boolean,
-    success: boolean;
-};
-
-const handleSignIn = async (prevState: State, formData: FormData) => {
+const handleSignIn = async (prevState: SignInState, formData: FormData): Promise<SignInState>  => {
 
     const email = formData.get("email") as string
     const password = formData.get("password") as string

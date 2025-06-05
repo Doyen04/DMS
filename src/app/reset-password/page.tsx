@@ -4,14 +4,11 @@ import Link from "next/link";
 import Image from "next/image";
 import { verifyResetToken } from "@/lib/verifyResetToken";
 import ResetPassword from "./_page";
+import { SearchProps } from "@/types/auth";
 
 
 // Create a separate component for the form to use useSearchParams
-interface SearchProps {
-    searchParams: Promise<{
-        token?: string | undefined;
-    }>;
-}
+
 const ResetPasswordForm: React.FC<SearchProps> = async ({ searchParams }) => {
     const { token } = await searchParams
 

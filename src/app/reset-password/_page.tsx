@@ -9,47 +9,16 @@ import Button from "@/ui/button";
 import Footer from "@/component/footer";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
+import { initialResetPasswordState, ResetPasswordProps, ResetPasswordState } from "@/types/auth";
 
 
-interface State {
-    errors: {
-        password?: string[] | undefined;
-        confirmPassword?: string[] | undefined;
-    },
-    values: {
-        password: string | undefined;
-        confirmPassword: string | undefined;
-    },
-    submitted: boolean,
-    success: boolean;
-}
-
-const initialState: State = {
-    errors: {
-        password: undefined,
-        confirmPassword: undefined,
-    },
-    values: {
-        password: undefined,
-        confirmPassword: undefined,
-    },
-    submitted: false,
-    success: false
-}
-
-
-interface ResetPasswordProps {
-    data: {
-        userId: string;
-    } | undefined;
-}
 
 const ResetPassword: React.FC<ResetPasswordProps> = ({ data }) => {
     const router = useRouter()
-    const actionHandler = async (prevState: State, formData: FormData) => {
+    const actionHandler = async (prevState: ResetPasswordState, formData: FormData) => {
         return submitNewPassword(prevState, formData, data?.userId as string);
     };
-    const [state, formAction] = useActionState(actionHandler, initialState);
+    const [state, formAction] = useActionState(actionHandler, initialResetPasswordState);
 
     useEffect(() => {
 
