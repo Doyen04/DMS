@@ -67,7 +67,7 @@ const Reset = () => {
                     <div className="text-sm text-blue-800">
                         <p className="font-medium mb-1">What happens next?</p>
                         <p className="text-blue-700">
-                            We'll send a secure reset link to your email. Click the link and create a new password for your account.
+                            We&apos;ll send a secure reset link to your email. Click the link and create a new password for your account.
                         </p>
                     </div>
                 </div>
