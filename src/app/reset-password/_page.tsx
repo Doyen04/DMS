@@ -32,7 +32,7 @@ const ResetPassword: React.FC<ResetPasswordProps> = ({ data }) => {
     }, [state,router]);
 
     return (
-        <div className="w-screen h-screen flex flex-col items-center gap-16.5">
+        <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50 flex flex-col items-center gap-16.5">
             <nav className="w-full h-14 px-19 flex bg-[#e6f0ff] shadow-xs shadow-gray-400">
                 <Link className="flex items-center gap-1.5" href='/'>
                     <Image src={'./arrow_back.svg'} width={20} height={20} alt='icon' />

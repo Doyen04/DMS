@@ -15,13 +15,13 @@ const SignIn = () => {
     const [state, formAction] = useActionState(handleSignIn, initialSignInState);
 
     useEffect(() => {
-        
+
         if (state.submitted && !state.success) {
             toast.error('Signin failed');
         }
     }, [state]);
     return (
-        <div className="w-screen h-screen flex flex-col items-center gap-16.5">
+        <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50 flex flex-col items-center gap-16.5">
             <nav className="w-full h-14 px-19 flex bg-[#e6f0ff] shadow-xs shadow-gray-400" >
                 <Link className=" flex items-center gap-1.5 " href='/'>
                     <Image src={'./arrow_back.svg'} width={20} height={20} alt='icon' />
@@ -56,6 +56,20 @@ const SignIn = () => {
                         </span>
                     </p>
                 </form>
+            </div>
+            <div className="mt-8 grid grid-cols-2 gap-4 text-center">
+                <div className="flex flex-col items-center gap-2">
+                    <div className="w-8 h-8 bg-green-100 text-green-600 rounded-full flex items-center justify-center">
+                        <span className="text-sm">✓</span>
+                    </div>
+                    <span className="text-xs text-gray-600">Secure Access</span>
+                </div>
+                <div className="flex flex-col items-center gap-2">
+                    <div className="w-8 h-8 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center">
+                        <span className="text-sm">⚡</span>
+                    </div>
+                    <span className="text-xs text-gray-600">Fast Performance</span>
+                </div>
             </div>
             <Footer />
         </div>
