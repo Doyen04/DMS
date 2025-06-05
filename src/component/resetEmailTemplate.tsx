@@ -43,12 +43,12 @@ export const ResetEmailTemplate: React.FC<Readonly<EmailTemplateProps>> = ({
                 This link will expire in 24 hours for security reasons.
             </p>
             <p style={{ color: '#666', lineHeight: '1.6', marginBottom: '16px' }}>
-                If you didn't request a password reset, please ignore this email. Your password will remain unchanged.
+                If you didn&apos;t request a password reset, please ignore this email. Your password will remain unchanged.
             </p>
         </div>
         <div style={{ borderTop: '1px solid #e0e0e0', paddingTop: '20px', fontSize: '12px', color: '#888' }}>
             <p style={{ marginBottom: '12px' }}>
-                If you're having trouble clicking the button, copy and paste the URL below into your web browser:
+                If you&apos;re having trouble clicking the button, copy and paste the URL below into your web browser:
             </p>
             <p style={{ wordBreak: 'break-all', marginBottom: '20px' }}>{resetUrl}</p>
             <p style={{ marginTop: '20px' }}>

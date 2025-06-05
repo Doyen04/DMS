@@ -60,7 +60,7 @@ const ResetPassword: React.FC<ResetPasswordProps> = ({ data }) => {
             router.push('/signin')
             toast.success('password Reset Sucessful')
         }
-    }, [state]);
+    }, [state,router]);
 
     return (
         <div className="w-screen h-screen flex flex-col items-center gap-16.5">
