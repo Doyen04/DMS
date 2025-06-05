@@ -9,6 +9,7 @@ export default auth((req) => {
     const publicRoutes = [
         "/",
         "/reset",
+        "/reset-password",
         "/signin",
         "/signup",
         "/error"

@@ -1,6 +1,6 @@
 import { ResetEmailTemplate } from '@/component/resetEmailTemplate';
 import { Resend } from 'resend';
-import { createResetLink } from './resetPasswordLink';
+import { createResetLink } from './createResetLink';
 import { User } from '@/generated/prisma-client';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
