@@ -8,6 +8,7 @@ import Input from "@/ui/input";
 import Button from "@/ui/button";
 import Footer from "@/component/footer";
 import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 
 interface State {
@@ -44,7 +45,7 @@ interface ResetPasswordProps {
 }
 
 const ResetPassword: React.FC<ResetPasswordProps> = ({ data }) => {
-
+    const router = useRouter()
     const actionHandler = async (prevState: State, formData: FormData) => {
         return submitNewPassword(prevState, formData, data?.userId as string);
     };
@@ -56,6 +57,7 @@ const ResetPassword: React.FC<ResetPasswordProps> = ({ data }) => {
             toast.error('Request Failed.');
         }
         if (state.submitted && state.success) {
+            router.push('/signin')
             toast.success('password Reset Sucessful')
         }
     }, [state]);
