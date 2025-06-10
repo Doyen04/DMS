@@ -9,7 +9,6 @@ import {
     FolderPlus,
     MessageSquare,
     Star,
-    ChevronRight,
 } from "lucide-react"
 import Link from "next/link"
 import OverviewCard from "@/component/overviewCard";
