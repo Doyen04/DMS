@@ -14,7 +14,7 @@ export default function NotFound() {
                             Page Not Found
                         </h1>
                         <p className="text-gray-600 text-lg mb-2">
-                            The dashboard page you're looking for doesn't exist.
+                            The dashboard page you&apos;re looking for doesn&apos;t exist.
                         </p>
                         <p className="text-gray-500 text-sm">
                             It might have been moved, deleted, or the URL was mistyped.

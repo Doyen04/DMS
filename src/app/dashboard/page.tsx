@@ -72,38 +72,38 @@ export default function DashboardPage() {
         },
     ]
 
-    const recentActivities: ActivityItemProps[] = [
-        {
-            action: "uploaded",
-            documentName: "Quarterly_Report_Q2.pdf",
-            time: "30m ago",
-            icon: UploadCloud,
-            status: "edited",
-        },
-        {
-            actor: { name: "Jane Doe", avatar: "/placeholder.svg?width=40&height=40&seed=jane" },
-            action: "shared",
-            documentName: "Project_Phoenix_Proposal.docx",
-            time: "2h ago",
-            icon: Share2,
-            status: "shared",
-        },
-        {
-            action: "commented on",
-            documentName: "Team_Meeting_Notes.md",
-            time: "5h ago",
-            icon: MessageSquare,
-            status: "commented",
-        },
-        {
-            actor: { name: "System Bot", avatar: "/placeholder.svg?width=40&height=40&seed=bot" },
-            action: "added you to folder",
-            documentName: "Marketing Assets Q3",
-            time: "1d ago",
-            icon: FolderPlus,
-            status: "viewed",
-        },
-    ]
+    // const recentActivities: ActivityItemProps[] = [
+    //     {
+    //         action: "uploaded",
+    //         documentName: "Quarterly_Report_Q2.pdf",
+    //         time: "30m ago",
+    //         icon: UploadCloud,
+    //         status: "edited",
+    //     },
+    //     {
+    //         actor: { name: "Jane Doe", avatar: "/placeholder.svg?width=40&height=40&seed=jane" },
+    //         action: "shared",
+    //         documentName: "Project_Phoenix_Proposal.docx",
+    //         time: "2h ago",
+    //         icon: Share2,
+    //         status: "shared",
+    //     },
+    //     {
+    //         action: "commented on",
+    //         documentName: "Team_Meeting_Notes.md",
+    //         time: "5h ago",
+    //         icon: MessageSquare,
+    //         status: "commented",
+    //     },
+    //     {
+    //         actor: { name: "System Bot", avatar: "/placeholder.svg?width=40&height=40&seed=bot" },
+    //         action: "added you to folder",
+    //         documentName: "Marketing Assets Q3",
+    //         time: "1d ago",
+    //         icon: FolderPlus,
+    //         status: "viewed",
+    //     },
+    // ]
 
     const quickActions = [
         { label: "Upload New File", icon: UploadCloud, variant: "default" as const, href: "/dashboard/upload" },
