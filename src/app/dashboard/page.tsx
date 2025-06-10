@@ -7,21 +7,20 @@ import {
     UploadCloud,
     Share2,
     FolderPlus,
-    MessageSquare,
     Star,
 } from "lucide-react"
 import Link from "next/link"
 import OverviewCard from "@/component/overviewCard";
 import BreadCrumb from "@/ui/breadcrumb";
 
-interface ActivityItemProps {
-    actor?: { name: string; avatar?: string } // Actor might be the system or another user
-    action: string
-    documentName: string
-    time: string
-    icon: React.ElementType
-    status?: "viewed" | "edited" | "shared" | "commented"
-}
+// interface ActivityItemProps {
+//     actor?: { name: string; avatar?: string } // Actor might be the system or another user
+//     action: string
+//     documentName: string
+//     time: string
+//     icon: React.ElementType
+//     status?: "viewed" | "edited" | "shared" | "commented"
+// }
 
 interface OverviewCardProps {
     title: string

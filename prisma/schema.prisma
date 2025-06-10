@@ -25,3 +25,15 @@ model User {
   fullname  String?
   password  String
 }
+
+model File {
+  id        String   @id @default(cuid())
+  name      String
+  size      Int
+  type      String
+  url       String
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
