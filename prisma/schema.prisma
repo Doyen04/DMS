@@ -24,6 +24,7 @@ model User {
   email     String   @unique
   fullname  String?
   password  String
+  files     File[]   // Add this relation field
 }
 
 model File {
