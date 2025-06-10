@@ -1,4 +1,4 @@
-import { ArrowLeft, CheckCircle, FileText, Paperclip, Image,UploadCloud } from "lucide-react";
+import { ArrowLeft, CheckCircle, FileText, Paperclip,UploadCloud, ImageIcon } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 
@@ -51,7 +51,7 @@ const Upload = () => {
                 </div>
                 <div className="flex items-center justify-between rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
                     <div className="flex items-center gap-3">
-                        <Image className="text-slate-500" />
+                        <ImageIcon className="text-slate-500" />
                         <span className="text-sm font-medium text-slate-700">project_screenshot.png</span>
                     </div>
                     <div className="flex items-center gap-2">
