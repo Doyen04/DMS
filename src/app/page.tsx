@@ -73,7 +73,7 @@ export default function Home() {
                                             <div className="w-3 h-3 bg-green-400 rounded-full"></div>
                                         </div>
                                         <div className="flex-1 text-center">
-                                            <span className="text-sm font-medium text-slate-600">FileHub Dashboard</span>
+                                            <span className="text-sm font-medium text-slate-600">DMS Dashboard</span>
                                         </div>
                                     </div>
                                 </div>
@@ -194,7 +194,7 @@ export default function Home() {
                         Ready to Transform Your Document Management?
                     </h2>
                     <p className="text-xl text-slate-600 mb-10 max-w-2xl mx-auto">
-                        Join thousands of teams who trust FileHub for their document management needs.
+                        Join thousands of teams who trust DMS for their document management needs.
                     </p>
                     <Link 
                         href="/signup"

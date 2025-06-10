@@ -35,7 +35,7 @@ const Footer: React.FC<FooterProps> = ({className}) => {
                                 <div className="absolute -top-1 -right-1 w-3 h-3 bg-green-400 rounded-full border-2 border-slate-900 animate-pulse"></div>
                             </div>
                             <span className="text-2xl font-bold bg-gradient-to-r from-white to-slate-300 bg-clip-text text-transparent">
-                                FileHub
+                                DMS
                             </span>
                         </div>
                         <p className="text-slate-400 text-sm leading-relaxed max-w-md">
@@ -103,7 +103,7 @@ const Footer: React.FC<FooterProps> = ({className}) => {
                         {/* Copyright */}
                         <div className="flex items-center space-x-4">
                             <p className="text-slate-400 text-sm">
-                                &copy; 2025 FileHub. All rights reserved.
+                                &copy; 2025 DMS. All rights reserved.
                             </p>
                             <div className="hidden md:flex items-center space-x-1">
                                 <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>

@@ -10,6 +10,7 @@ export default auth((req) => {
         "/",
         "/reset",
         "/reset-password",
+        '/dashboard',
         "/signin",
         "/signup",
         "/error"
