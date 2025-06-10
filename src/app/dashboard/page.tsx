@@ -13,6 +13,7 @@ import {
 } from "lucide-react"
 import Link from "next/link"
 import OverviewCard from "@/component/overviewCard";
+import BreadCrumb from "@/ui/breadcrumb";
 
 interface ActivityItemProps {
     actor?: { name: string; avatar?: string } // Actor might be the system or another user
@@ -115,11 +116,7 @@ export default function DashboardPage() {
     return (
         <section className="flex flex-col gap-7.5">
 
-            <div className="px-8 flex items-center h-1/12 border-b border-gray-300">
-                <Link href="/dashboard" className="text-sm text-gray-500">My Dashboard</Link>
-                <ChevronRight className="h-4 w-4" />
-                <div className="text-sm">Overview</div>
-            </div>
+            <BreadCrumb text="Overview" />
 
             <div className="px-8 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
                 {overviewData.map((data) => (
@@ -141,12 +138,14 @@ export default function DashboardPage() {
                     </h1>
                     <div className="p-6 pt-0 flex flex-col gap-2">
                         {quickActions.map(items => (
-                            <button className="flex items-center p-3 rounded-lg border border-gray-300" key={items.label}>
-                                <Link className="flex gap-2" href={items.href}>
+                            <Link className="flex items-center p-3 rounded-lg border border-gray-300 
+                            focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" key={items.label} href={items.href}>
+                                <button className="flex items-center gap-2 ">
                                     <items.icon />
                                     <p>{items.label}</p>
-                                </Link>
-                            </button>
+
+                                </button>
+                            </Link>
                         ))}
                     </div>
                 </div>
