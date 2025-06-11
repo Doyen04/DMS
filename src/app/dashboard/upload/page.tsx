@@ -1,8 +1,26 @@
-import { ArrowLeft, CheckCircle, FileText, Paperclip,UploadCloud, ImageIcon } from "lucide-react";
+"use client"
+
+import { useFileUpload } from "@/hooks/useUploadFile";
+import { ArrowLeft, CheckCircle, FileText, Paperclip, UploadCloud, ImageIcon } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 
 const Upload = () => {
+    const {
+        uploadingFiles,
+        handleFileSelect,
+        isUploading
+    } = useFileUpload();
+
+    const submitFiles =(e: React.ChangeEvent<HTMLInputElement>)=>{
+        const files = e.target.files
+        console.log(files);
+        
+        if (files) {
+            handleFileSelect(files);
+        }
+    }
+
     return (
         <div className="flex flex-col gap-7.5 items-center">
 
@@ -24,14 +42,23 @@ const Upload = () => {
                     </div>
                     <p className="text-lg font-semibold text-slate-800 mb-2">Drag and drop files here</p>
                     <p className="text-sm text-slate-500 mb-6">Or click to select files from your computer.</p>
-                    <label className="group relative flex cursor-pointer items-center justify-center rounded-lg
+                    
+                        <label className="group relative flex cursor-pointer items-center justify-center rounded-lg
                              bg-[#0c7ff2] px-6 py-3 text-sm font-semibold text-white shadow-md transition-all
                               duration-150 ease-in-out hover:bg-blue-600 focus-within:ring-2 focus-within:ring-blue-500
                                focus-within:ring-offset-2" htmlFor="file-upload">
-                        <Paperclip className="mr-2 text-lg" size={20}/>
-                        Select Files
-                        <input className="sr-only" id="file-upload" name="file-upload" type="file" />
-                    </label>
+                            <Paperclip className="mr-2 text-lg" size={20} />
+                            Select Files
+                            <input className="sr-only" 
+                            id="file-upload" 
+                            name="file-upload" 
+                            type="file" 
+                            multiple
+                            disabled={isUploading}
+                            onChange={submitFiles}
+                            />
+                        </label>
+                    
                     <div className="mt-6 text-xs text-slate-500">
                         <p>Supported file types: PDF, DOCX, TXT, PNG, JPG</p>
                         <p>Maximum file size: 10MB</p>
