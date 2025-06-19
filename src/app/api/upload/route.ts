@@ -17,4 +17,4 @@ export async function POST(request: NextRequest) {
   }
 }
 
-export const maxDuration = 300 // 5 minutes for large uploads
+// export const maxDuration = 300 // 5 minutes for large uploads
