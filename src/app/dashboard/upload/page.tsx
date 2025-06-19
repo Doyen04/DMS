@@ -3,7 +3,7 @@
 import { useFileUpload } from "@/hooks/useUploadFile";
 import { ArrowLeft, CheckCircle, FileText, Paperclip, UploadCloud, ImageIcon } from "lucide-react";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect } from "react";
 
 const Upload = () => {
     const {
@@ -20,6 +20,11 @@ const Upload = () => {
             handleFileSelect(files);
         }
     }
+    useEffect(() => {
+        // This effect can be used to handle any side effects when uploadingFiles changes
+        // For example, you might want to log the files or update some state
+        console.log("Current uploading files:", uploadingFiles);
+    }, [uploadingFiles]);
 
     return (
         <div className="flex flex-col gap-7.5 items-center">
