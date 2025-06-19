@@ -12,10 +12,10 @@ const Upload = () => {
         isUploading
     } = useFileUpload();
 
-    const submitFiles =(e: React.ChangeEvent<HTMLInputElement>)=>{
+    const submitFiles = (e: React.ChangeEvent<HTMLInputElement>) => {
         const files = e.target.files
         console.log(files);
-        
+
         if (files) {
             handleFileSelect(files);
         }
@@ -47,23 +47,23 @@ const Upload = () => {
                     </div>
                     <p className="text-lg font-semibold text-slate-800 mb-2">Drag and drop files here</p>
                     <p className="text-sm text-slate-500 mb-6">Or click to select files from your computer.</p>
-                    
-                        <label className="group relative flex cursor-pointer items-center justify-center rounded-lg
+
+                    <label className="group relative flex cursor-pointer items-center justify-center rounded-lg
                              bg-[#0c7ff2] px-6 py-3 text-sm font-semibold text-white shadow-md transition-all
                               duration-150 ease-in-out hover:bg-blue-600 focus-within:ring-2 focus-within:ring-blue-500
                                focus-within:ring-offset-2" htmlFor="file-upload">
-                            <Paperclip className="mr-2 text-lg" size={20} />
-                            Select Files
-                            <input className="sr-only" 
-                            id="file-upload" 
-                            name="file-upload" 
-                            type="file" 
+                        <Paperclip className="mr-2 text-lg" size={20} />
+                        Select Files
+                        <input className="sr-only"
+                            id="file-upload"
+                            name="file-upload"
+                            type="file"
                             multiple
                             disabled={isUploading}
                             onChange={submitFiles}
-                            />
-                        </label>
-                    
+                        />
+                    </label>
+
                     <div className="mt-6 text-xs text-slate-500">
                         <p>Supported file types: PDF, DOCX, TXT, PNG, JPG</p>
                         <p>Maximum file size: 10MB</p>
@@ -71,28 +71,55 @@ const Upload = () => {
                 </div>
             </div>
             <div className="w-[50%] space-y-4">
-                <div className="flex items-center justify-between rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
-                    <div className="flex items-center gap-3">
-                        <FileText className="text-slate-500" />
-                        <span className="text-sm font-medium text-slate-700">document_final.pdf</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                        <span className="text-xs text-slate-500">4.5MB / 10MB</span>
-                        <CheckCircle className="text-green-500" />
-                    </div>
-                </div>
-                <div className="flex items-center justify-between rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
-                    <div className="flex items-center gap-3">
-                        <ImageIcon className="text-slate-500" />
-                        <span className="text-sm font-medium text-slate-700">project_screenshot.png</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                        <div className="w-24 h-2 bg-slate-200 rounded-full overflow-hidden">
-                            <div className="h-full bg-[#0c7ff2] w-[60%]"></div>
+                {uploadingFiles.length > 0 ? (
+                    uploadingFiles.map((uploadingFile) => (
+                        <div key={uploadingFile.id} className="flex items-center justify-between rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
+                            <div className="flex items-center gap-3">
+                                {uploadingFile.file.type.startsWith('image/') ? (
+                                    <ImageIcon className="text-slate-500" />
+                                ) : uploadingFile.file.type === 'application/pdf' ? (
+                                    <FileText className="text-slate-500" />
+                                ) : (
+                                    <FileText className="text-slate-500" />
+                                )}
+                                <span className="text-sm font-medium text-slate-700">{uploadingFile.file.name}</span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                                {uploadingFile.status === 'completed' ? (
+                                    <>
+                                        <span className="text-xs text-slate-500">
+                                            {(uploadingFile.file.size / (1024 * 1024)).toFixed(1)}MB
+                                        </span>
+                                        <CheckCircle className="text-green-500" size={20} />
+                                    </>
+                                ) : uploadingFile.status === 'error' ? (
+                                    <>
+                                        <span className="text-xs text-red-500">Upload failed</span>
+                                        <div className="w-5 h-5 rounded-full bg-red-100 flex items-center justify-center">
+                                            <span className="text-red-500 text-xs">✕</span>
+                                        </div>
+                                    </>
+                                ) : (
+                                    <>
+                                        <div className="w-24 h-2 bg-slate-200 rounded-full overflow-hidden">
+                                            <div
+                                                className="h-full bg-[#0c7ff2] transition-all duration-300 ease-out"
+                                                style={{ width: `${uploadingFile.progress}%` }}
+                                            ></div>
+                                        </div>
+                                        <span className="text-xs text-slate-500">{uploadingFile.progress}%</span>
+                                    </>
+                                )}
+                            </div>
                         </div>
-                        <span className="text-xs text-slate-500">60%</span>
+                    ))
+                ) : (
+                    <div className="text-center py-8 text-slate-500">
+                        <FileText className="mx-auto mb-2 text-slate-300" size={48} />
+                        <p className="text-sm">No files uploaded yet</p>
+                        <p className="text-xs">Selected files will appear here</p>
                     </div>
-                </div>
+                )}
             </div>
             <footer className="border-t border-solid border-slate-200 bg-white px-6 sm:px-10 py-6 text-center">
                 <p className="text-sm text-slate-600">© 2024 FileHub. All rights reserved.</p>
