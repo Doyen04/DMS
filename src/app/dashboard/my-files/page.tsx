@@ -1,10 +1,12 @@
 'use client'
 
+import { deleteUserFile } from "@/action/deleteUserFile";
 import { getUserFiles } from "@/action/getAllUserFiles";
 import BreadCrumb from "@/ui/breadcrumb";
-import { ArrowUpDown, Edit, Eye, Filter, FolderPlus, MoreHorizontal, Plus, Search, Star, Trash2, FileText, Image, Download } from "lucide-react";
+import { ArrowUpDown, Edit, Eye, Filter, FolderPlus, MoreHorizontal, Plus, Search, Star, Trash2, FileText, ImageIcon, Download } from "lucide-react";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 interface FileData {
     id: string;
@@ -31,7 +33,7 @@ const MyFiles = () => {
             if (result.success) {
                 setFiles(result.files || [])
             } else {
-                console.error('Failed to fetch files:', result.error)
+                toast.error('Failed to fetch files: ' + result.error)
             }
         } catch (error) {
             console.error('Error fetching files:', error)
@@ -44,18 +46,18 @@ const MyFiles = () => {
         if (!confirm('Are you sure you want to delete this file?')) return;
 
         try {
-            const response = await fetch(`/api/files/${fileId}`, {
-                method: 'DELETE',
-            });
-
-            if (response.ok) {
-                setFiles(files.filter(file => file.id !== fileId));
+            const result = await deleteUserFile(fileId)
+            if (result.success) {
+                // Remove the deleted file from the current state
+                setFiles(prevFiles => prevFiles.filter(file => file.id !== fileId))
+                toast.success('File deleted successfully')
             } else {
-                alert('Failed to delete file');
+                console.error('Failed to delete file:', result.error)
+                toast.error('Failed to delete file: ' + result.error)
             }
         } catch (error) {
-            console.error('Error deleting file:', error);
-            alert('Error deleting file');
+            console.error('Error deleting file:', error)
+            toast.error('Error deleting file')
         }
     };
 
@@ -77,7 +79,7 @@ const MyFiles = () => {
 
     const getFileIcon = (contentType: string) => {
         if (contentType.startsWith('image/')) {
-            return <Image className="h-4 w-4 text-green-500" />;
+            return <ImageIcon className="h-4 w-4 text-green-500" />;
         } else if (contentType === 'application/pdf') {
             return <FileText className="h-4 w-4 text-red-500" />;
         } else {
