@@ -7,6 +7,8 @@ import { ArrowUpDown, Edit, Eye, Filter, FolderPlus, MoreHorizontal, Plus, Searc
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import { filterFiles, searchFiles, getActiveFilterCount, clearAllFilters, updateFilter } from "@/utils/filterFunction";
+import { sortFiles, getSortLabel, handleSortToggle, SortOption, SortOrder } from "@/utils/sortFunction";
 
 interface FileData {
     id: string;
@@ -18,9 +20,6 @@ interface FileData {
     userId: string;
 }
 
-type SortOption = 'name' | 'date' | 'size' | 'type';
-type SortOrder = 'asc' | 'desc';
-
 const MyFiles = () => {
     const [files, setFiles] = useState<FileData[]>([]);
     const [loading, setLoading] = useState(true);
@@ -28,6 +27,12 @@ const MyFiles = () => {
     const [sortBy, setSortBy] = useState<SortOption>('date');
     const [sortOrder, setSortOrder] = useState<SortOrder>('desc');
     const [showSortMenu, setShowSortMenu] = useState(false);
+    const [showFilterMenu, setShowFilterMenu] = useState(false);
+    const [activeFilters, setActiveFilters] = useState({
+        fileType: 'all' as 'all' | 'images' | 'pdfs' | 'documents' | 'others',
+        dateRange: 'all' as 'all' | 'today' | 'week' | 'month' | 'year',
+        sizeRange: 'all' as 'all' | 'small' | 'medium' | 'large'
+    });
 
     useEffect(() => {
         fetchFiles();
@@ -92,54 +97,31 @@ const MyFiles = () => {
         }
     };
 
-    const sortFiles = (files: FileData[]) => {
-        return [...files].sort((a, b) => {
-            let comparison = 0;
-            
-            switch (sortBy) {
-                case 'name':
-                    comparison = a.filename.localeCompare(b.filename);
-                    break;
-                case 'date':
-                    comparison = new Date(a.uploadedAt).getTime() - new Date(b.uploadedAt).getTime();
-                    break;
-                case 'size':
-                    comparison = a.size - b.size;
-                    break;
-                case 'type':
-                    comparison = a.contentType.localeCompare(b.contentType);
-                    break;
-            }
-            
-            return sortOrder === 'asc' ? comparison : -comparison;
-        });
-    };
-
     const handleSort = (option: SortOption) => {
-        if (sortBy === option) {
-            setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
-        } else {
-            setSortBy(option);
-            setSortOrder('asc');
-        }
+        const { sortBy: newSortBy, sortOrder: newSortOrder } = handleSortToggle(sortBy, sortOrder, option);
+        setSortBy(newSortBy);
+        setSortOrder(newSortOrder);
         setShowSortMenu(false);
     };
 
-    const getSortLabel = () => {
-        const orderText = sortOrder === 'asc' ? '↑' : '↓';
-        switch (sortBy) {
-            case 'name': return `Name ${orderText}`;
-            case 'date': return `Date ${orderText}`;
-            case 'size': return `Size ${orderText}`;
-            case 'type': return `Type ${orderText}`;
-            default: return 'Sort';
-        }
+    const handleFilterChange = (filterType: string, value: string) => {
+        setActiveFilters(prev => updateFilter(prev, filterType, value));
+        setShowFilterMenu(false);
     };
 
-    const filteredAndSortedFiles = sortFiles(
-        files.filter(file =>
-            file.filename.toLowerCase().includes(searchTerm.toLowerCase())
-        )
+    const handleClearAllFilters = () => {
+        setActiveFilters(clearAllFilters());
+        setShowFilterMenu(false);
+    };
+
+    // Process files through search, filter, and sort
+    const processedFiles = sortFiles(
+        filterFiles(
+            searchFiles(files, searchTerm),
+            activeFilters
+        ),
+        sortBy,
+        sortOrder
     );
 
     return (
@@ -178,7 +160,7 @@ const MyFiles = () => {
                             className="flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-md border border-slate-300 bg-white px-4 text-sm font-medium text-slate-700 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1"
                         >
                             <ArrowUpDown className="h-4 w-4 text-slate-500" />
-                            <span>{getSortLabel()}</span>
+                            <span>{getSortLabel(sortBy, sortOrder)}</span>
                             <ChevronDown className="h-4 w-4 text-slate-500" />
                         </button>
                         {showSortMenu && (
@@ -200,18 +182,141 @@ const MyFiles = () => {
                             </div>
                         )}
                     </div>
-                    <button className="flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-md border border-slate-300 bg-white px-4 text-sm font-medium text-slate-700 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1">
-                        <Filter className="h-4 w-4 text-slate-500" />
-                        <span>Filter</span>
-                    </button>
+                    <div className="relative">
+                        <button
+                            onClick={() => setShowFilterMenu(!showFilterMenu)}
+                            className="flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-md border border-slate-300 bg-white px-4 text-sm font-medium text-slate-700 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1"
+                        >
+                            <Filter className="h-4 w-4 text-slate-500" />
+                            <span>Filter</span>
+                            {getActiveFilterCount(activeFilters) > 0 && (
+                                <span className="ml-1 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white bg-blue-600 rounded-full">
+                                    {getActiveFilterCount(activeFilters)}
+                                </span>
+                            )}
+                        </button>
+                        {showFilterMenu && (
+                            <div className="absolute right-0 mt-2 w-64 bg-white rounded-md shadow-lg border border-slate-200 z-50">
+                                <div className="p-4">
+                                    <div className="flex justify-between items-center mb-4">
+                                        <h3 className="text-sm font-semibold text-slate-900">Filters</h3>
+                                        <button
+                                            onClick={handleClearAllFilters}
+                                            className="text-xs text-blue-600 hover:text-blue-800"
+                                        >
+                                            Clear All
+                                        </button>
+                                    </div>
+
+                                    {/* File Type Filter */}
+                                    <div className="mb-4">
+                                        <label className="block text-xs font-medium text-slate-700 mb-2">File Type</label>
+                                        <select
+                                            value={activeFilters.fileType}
+                                            onChange={(e) => handleFilterChange('fileType', e.target.value)}
+                                            className="w-full text-sm border border-slate-300 rounded-md px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                        >
+                                            <option value="all">All Types</option>
+                                            <option value="images">Images</option>
+                                            <option value="pdfs">PDFs</option>
+                                            <option value="documents">Documents</option>
+                                            <option value="others">Others</option>
+                                        </select>
+                                    </div>
+
+                                    {/* Date Range Filter */}
+                                    <div className="mb-4">
+                                        <label className="block text-xs font-medium text-slate-700 mb-2">Upload Date</label>
+                                        <select
+                                            value={activeFilters.dateRange}
+                                            onChange={(e) => handleFilterChange('dateRange', e.target.value)}
+                                            className="w-full text-sm border border-slate-300 rounded-md px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                        >
+                                            <option value="all">All Time</option>
+                                            <option value="today">Today</option>
+                                            <option value="week">This Week</option>
+                                            <option value="month">This Month</option>
+                                            <option value="year">This Year</option>
+                                        </select>
+                                    </div>
+
+                                    {/* File Size Filter */}
+                                    <div className="mb-2">
+                                        <label className="block text-xs font-medium text-slate-700 mb-2">File Size</label>
+                                        <select
+                                            value={activeFilters.sizeRange}
+                                            onChange={(e) => handleFilterChange('sizeRange', e.target.value)}
+                                            className="w-full text-sm border border-slate-300 rounded-md px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                        >
+                                            <option value="all">All Sizes</option>
+                                            <option value="small">Small (&lt; 1MB)</option>
+                                            <option value="medium">Medium (1-10MB)</option>
+                                            <option value="large">Large (&gt; 10MB)</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+                    </div>
                 </div>
             </div>
 
-            {showSortMenu && (
-                <div 
-                    className="fixed inset-0 z-40" 
-                    onClick={() => setShowSortMenu(false)}
+            {(showSortMenu || showFilterMenu) && (
+                <div
+                    className="fixed inset-0 z-40"
+                    onClick={() => {
+                        setShowSortMenu(false);
+                        setShowFilterMenu(false);
+                    }}
                 />
+            )}
+
+            {/* Active Filters Display */}
+            {getActiveFilterCount(activeFilters) > 0 && (
+                <div className="px-8">
+                    <div className="flex flex-wrap gap-2 items-center">
+                        <span className="text-sm text-slate-600">Active filters:</span>
+                        {activeFilters.fileType !== 'all' && (
+                            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                Type: {activeFilters.fileType}
+                                <button
+                                    onClick={() => handleFilterChange('fileType', 'all')}
+                                    className="ml-1.5 inline-flex items-center justify-center w-4 h-4 rounded-full hover:bg-blue-200"
+                                >
+                                    ×
+                                </button>
+                            </span>
+                        )}
+                        {activeFilters.dateRange !== 'all' && (
+                            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                Date: {activeFilters.dateRange}
+                                <button
+                                    onClick={() => handleFilterChange('dateRange', 'all')}
+                                    className="ml-1.5 inline-flex items-center justify-center w-4 h-4 rounded-full hover:bg-green-200"
+                                >
+                                    ×
+                                </button>
+                            </span>
+                        )}
+                        {activeFilters.sizeRange !== 'all' && (
+                            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
+                                Size: {activeFilters.sizeRange}
+                                <button
+                                    onClick={() => handleFilterChange('sizeRange', 'all')}
+                                    className="ml-1.5 inline-flex items-center justify-center w-4 h-4 rounded-full hover:bg-purple-200"
+                                >
+                                    ×
+                                </button>
+                            </span>
+                        )}
+                        <button
+                            onClick={handleClearAllFilters}
+                            className="text-xs text-slate-500 hover:text-slate-700 underline"
+                        >
+                            Clear all
+                        </button>
+                    </div>
+                </div>
             )}
 
             <div className="px-8 @container">
@@ -244,14 +349,14 @@ const MyFiles = () => {
                             </tr>
                         </tbody>
                     </table>
-                ) : filteredAndSortedFiles.length === 0 ? (
+                ) : processedFiles.length === 0 ? (
                     <div className="text-center py-12">
                         <FileText className="mx-auto h-12 w-12 text-slate-300" />
                         <h3 className="mt-2 text-sm font-semibold text-slate-900">No documents</h3>
                         <p className="mt-1 text-sm text-slate-500">
-                            {searchTerm ? 'No files match your search.' : 'Get started by uploading your first document.'}
+                            {searchTerm || getActiveFilterCount(activeFilters) > 0 ? 'No files match your search criteria.' : 'Get started by uploading your first document.'}
                         </p>
-                        {!searchTerm && (
+                        {!searchTerm && getActiveFilterCount(activeFilters) === 0 && (
                             <div className="mt-6">
                                 <Link href="/dashboard/upload" className="inline-flex items-center rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500">
                                     <Plus className="h-5 w-5 mr-1" />
@@ -279,7 +384,7 @@ const MyFiles = () => {
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-slate-200 bg-white">
-                            {filteredAndSortedFiles.map((file) => (
+                            {processedFiles.map((file) => (
                                 <tr key={file.id} className="hover:bg-slate-50">
                                     <td className="whitespace-nowrap px-6 py-4 text-sm font-medium text-slate-800">
                                         <div className="flex items-center gap-2">
