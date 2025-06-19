@@ -39,7 +39,7 @@ const Sidebar = () => {
         { label: 'Logout', icon: LogOut, onClick: () => { } },
     ]
     return (
-        <div className="relative w-full h-screen bg-slate-900 text-white flex flex-col gap-1.5 p-2">
+        <div className="fixed left-0 top-0 w-[12%] h-screen bg-slate-900 text-white flex flex-col gap-1.5 p-2">
             <div className="bg-white rounded-sm mt-2.5 mb-4 p-2.5">
                 <Logo />
             </div>

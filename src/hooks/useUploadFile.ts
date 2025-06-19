@@ -75,8 +75,8 @@ export const useFileUpload = () => {
         if (!files) return;
 
         Array.from(files).forEach(file => {
-            if (file.size > 10 * 1024 * 1024) {
-                toast.error(`${file.name} is too large. Maximum file size is 10MB.`);
+            if (file.size > 100 * 1024 * 1024) {
+                toast.error(`${file.name} is too large. Maximum file size is 100MB.`);
                 return;
             }
             uploadFile(file);

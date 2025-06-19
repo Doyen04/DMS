@@ -14,8 +14,6 @@ const Upload = () => {
 
     const submitFiles = (e: React.ChangeEvent<HTMLInputElement>) => {
         const files = e.target.files
-        console.log(files);
-
         if (files) {
             handleFileSelect(files);
         }
@@ -28,19 +26,18 @@ const Upload = () => {
 
     return (
         <div className="flex flex-col gap-7.5 items-center">
-
-            <div className="px-8 flex items-center h-1/6 w-full border-b border-gray-300 text-sm font-medium text-[#0c7ff2] hover:text-blue-700 transition-colors group mb-4">
+            <div className="px-8 py-4 w-full flex items-center border-b border-gray-300 text-sm font-medium text-[#0c7ff2] hover:text-blue-700 transition-colors group">
                 <Link href="/dashboard" className="flex items-center gap-1">
                     <ArrowLeft className="mr-1 transition-transform duration-200 ease-in-out group-hover:-translate-x-1" />
                     Back to Dashboard
                 </Link>
             </div>
-            <div className="px-8 text-center">
+            <div className="px-8 text-center h-max w-full">
                 <h1 className="text-3xl sm:text-4xl font-bold text-slate-900 tracking-tight">Upload Your Documents</h1>
                 <p className="mt-2 text-slate-600 text-sm sm:text-base">Easily upload and manage your files in one secure place.</p>
             </div>
 
-            <div className="w-[50%] rounded-xl border-2 border-dashed border-slate-300 bg-white p-6 sm:p-10 shadow-lg hover:border-slate-400 transition-colors">
+            <div className="bg-white h-max w-[50%] rounded-xl border-2 border-dashed border-slate-300 p-6 sm:p-10 shadow-lg hover:border-slate-400 transition-colors">
                 <div className="flex flex-col items-center justify-center text-center">
                     <div className="mb-6 text-[#0c7ff2]">
                         <UploadCloud className="!text-6xl" />
@@ -70,7 +67,7 @@ const Upload = () => {
                     </div>
                 </div>
             </div>
-            <div className="w-[50%] space-y-4">
+            <div className="h-max w-[50%] space-y-4">
                 {uploadingFiles.length > 0 ? (
                     uploadingFiles.map((uploadingFile) => (
                         <div key={uploadingFile.id} className="flex items-center justify-between rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
@@ -121,7 +118,7 @@ const Upload = () => {
                     </div>
                 )}
             </div>
-            <footer className="border-t border-solid border-slate-200 bg-white px-6 sm:px-10 py-6 text-center">
+            <footer className="w-full border-t border-solid border-slate-200 bg-white px-6 sm:px-10 py-6 text-center">
                 <p className="text-sm text-slate-600">© 2024 FileHub. All rights reserved.</p>
             </footer>
         </div>
