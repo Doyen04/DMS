@@ -106,7 +106,7 @@ export default function DashboardPage() {
     // ]
 
     const quickActions = [
-        { label: "Upload New File", icon: UploadCloud, variant: "default" as const, href: "/dashboard/upload", bg:'text-blue-700 border-blue-200' },
+        { label: "Upload New File", icon: UploadCloud, variant: "default" as const, href: "/dashboard/upload", bg:'bg-blue-700 border-blue-200 text-white' },
         { label: "Create New Folder", icon: FolderPlus, variant: "outline" as const, href: "/dashboard/create-folder" },
         { label: "Share a File", icon: Share2, variant: "outline" as const, href: "/dashboard/share" },
         { label: "View Favorites", icon: Star, variant: "outline" as const, href: "/dashboard/favorites" },
