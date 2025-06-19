@@ -142,124 +142,124 @@ const MyFiles = () => {
             </div>
 
             <div className="px-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                <label className="relative flex-col min-w-40 !h-11 w-full max-w-md flex">
-                    <div className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">
-                        <Search className="h-5 w-5" />
-                    </div>
-                    <input
-                        className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg border border-slate-300 bg-white text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 h-full placeholder:text-slate-400 pl-10 pr-4 text-sm font-normal leading-normal"
-                        placeholder="Search documents..."
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                    />
-                </label>
-                <div className="flex gap-3 relative">
-                    <div className="relative">
-                        <button 
-                            onClick={() => setShowSortMenu(!showSortMenu)}
-                            className="flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-md border border-slate-300 bg-white px-4 text-sm font-medium text-slate-700 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1"
-                        >
-                            <ArrowUpDown className="h-4 w-4 text-slate-500" />
-                            <span>{getSortLabel(sortBy, sortOrder)}</span>
-                            <ChevronDown className="h-4 w-4 text-slate-500" />
+    <label className="relative flex-col min-w-40 !h-11 w-full max-w-md flex">
+        <div className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">
+            <Search className="h-5 w-5" />
+        </div>
+        <input
+            className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg border border-slate-300 bg-white text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 h-full placeholder:text-slate-400 pl-10 pr-4 text-sm font-normal leading-normal"
+            placeholder="Search documents..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+        />
+    </label>
+    <div className="flex gap-3 relative">
+        <div className="relative">
+            <button 
+                onClick={() => setShowSortMenu(!showSortMenu)}
+                className="flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-md border border-slate-300 bg-white px-4 text-sm font-medium text-slate-700 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1"
+            >
+                <ArrowUpDown className="h-4 w-4 text-slate-500" />
+                <span>{getSortLabel(sortBy, sortOrder)}</span>
+                <ChevronDown className="h-4 w-4 text-slate-500" />
+            </button>
+            {showSortMenu && (
+                <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg border border-slate-200 z-50">
+                    <div className="py-1">
+                        <button onClick={() => handleSort('name')} className="w-full text-left px-4 py-2 text-sm text-slate-700 hover:bg-slate-50">
+                            Name {sortBy === 'name' && (sortOrder === 'asc' ? '↑' : '↓')}
                         </button>
-                        {showSortMenu && (
-                            <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg border border-slate-200 z-50">
-                                <div className="py-1">
-                                    <button onClick={() => handleSort('name')} className="w-full text-left px-4 py-2 text-sm text-slate-700 hover:bg-slate-50">
-                                        Name {sortBy === 'name' && (sortOrder === 'asc' ? '↑' : '↓')}
-                                    </button>
-                                    <button onClick={() => handleSort('date')} className="w-full text-left px-4 py-2 text-sm text-slate-700 hover:bg-slate-50">
-                                        Date {sortBy === 'date' && (sortOrder === 'asc' ? '↑' : '↓')}
-                                    </button>
-                                    <button onClick={() => handleSort('size')} className="w-full text-left px-4 py-2 text-sm text-slate-700 hover:bg-slate-50">
-                                        Size {sortBy === 'size' && (sortOrder === 'asc' ? '↑' : '↓')}
-                                    </button>
-                                    <button onClick={() => handleSort('type')} className="w-full text-left px-4 py-2 text-sm text-slate-700 hover:bg-slate-50">
-                                        Type {sortBy === 'type' && (sortOrder === 'asc' ? '↑' : '↓')}
-                                    </button>
-                                </div>
-                            </div>
-                        )}
-                    </div>
-                    <div className="relative">
-                        <button
-                            onClick={() => setShowFilterMenu(!showFilterMenu)}
-                            className="flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-md border border-slate-300 bg-white px-4 text-sm font-medium text-slate-700 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1"
-                        >
-                            <Filter className="h-4 w-4 text-slate-500" />
-                            <span>Filter</span>
-                            {getActiveFilterCount(activeFilters) > 0 && (
-                                <span className="ml-1 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white bg-blue-600 rounded-full">
-                                    {getActiveFilterCount(activeFilters)}
-                                </span>
-                            )}
+                        <button onClick={() => handleSort('date')} className="w-full text-left px-4 py-2 text-sm text-slate-700 hover:bg-slate-50">
+                            Date {sortBy === 'date' && (sortOrder === 'asc' ? '↑' : '↓')}
                         </button>
-                        {showFilterMenu && (
-                            <div className="absolute right-0 mt-2 w-64 bg-white rounded-md shadow-lg border border-slate-200 z-50">
-                                <div className="p-4">
-                                    <div className="flex justify-between items-center mb-4">
-                                        <h3 className="text-sm font-semibold text-slate-900">Filters</h3>
-                                        <button
-                                            onClick={handleClearAllFilters}
-                                            className="text-xs text-blue-600 hover:text-blue-800"
-                                        >
-                                            Clear All
-                                        </button>
-                                    </div>
-
-                                    {/* File Type Filter */}
-                                    <div className="mb-4">
-                                        <label className="block text-xs font-medium text-slate-700 mb-2">File Type</label>
-                                        <select
-                                            value={activeFilters.fileType}
-                                            onChange={(e) => handleFilterChange('fileType', e.target.value)}
-                                            className="w-full text-sm border border-slate-300 rounded-md px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                        >
-                                            <option value="all">All Types</option>
-                                            <option value="images">Images</option>
-                                            <option value="pdfs">PDFs</option>
-                                            <option value="documents">Documents</option>
-                                            <option value="others">Others</option>
-                                        </select>
-                                    </div>
-
-                                    {/* Date Range Filter */}
-                                    <div className="mb-4">
-                                        <label className="block text-xs font-medium text-slate-700 mb-2">Upload Date</label>
-                                        <select
-                                            value={activeFilters.dateRange}
-                                            onChange={(e) => handleFilterChange('dateRange', e.target.value)}
-                                            className="w-full text-sm border border-slate-300 rounded-md px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                        >
-                                            <option value="all">All Time</option>
-                                            <option value="today">Today</option>
-                                            <option value="week">This Week</option>
-                                            <option value="month">This Month</option>
-                                            <option value="year">This Year</option>
-                                        </select>
-                                    </div>
-
-                                    {/* File Size Filter */}
-                                    <div className="mb-2">
-                                        <label className="block text-xs font-medium text-slate-700 mb-2">File Size</label>
-                                        <select
-                                            value={activeFilters.sizeRange}
-                                            onChange={(e) => handleFilterChange('sizeRange', e.target.value)}
-                                            className="w-full text-sm border border-slate-300 rounded-md px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                        >
-                                            <option value="all">All Sizes</option>
-                                            <option value="small">Small (&lt; 1MB)</option>
-                                            <option value="medium">Medium (1-10MB)</option>
-                                            <option value="large">Large (&gt; 10MB)</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                        )}
+                        <button onClick={() => handleSort('size')} className="w-full text-left px-4 py-2 text-sm text-slate-700 hover:bg-slate-50">
+                            Size {sortBy === 'size' && (sortOrder === 'asc' ? '↑' : '↓')}
+                        </button>
+                        <button onClick={() => handleSort('type')} className="w-full text-left px-4 py-2 text-sm text-slate-700 hover:bg-slate-50">
+                            Type {sortBy === 'type' && (sortOrder === 'asc' ? '↑' : '↓')}
+                        </button>
                     </div>
                 </div>
-            </div>
+            )}
+        </div>
+        <div className="relative">
+            <button
+                onClick={() => setShowFilterMenu(!showFilterMenu)}
+                className="flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-md border border-slate-300 bg-white px-4 text-sm font-medium text-slate-700 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1"
+            >
+                <Filter className="h-4 w-4 text-slate-500" />
+                <span>Filter</span>
+                {getActiveFilterCount(activeFilters) > 0 && (
+                    <span className="ml-1 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white bg-blue-600 rounded-full">
+                        {getActiveFilterCount(activeFilters)}
+                    </span>
+                )}
+            </button>
+            {showFilterMenu && (
+                <div className="absolute right-0 mt-2 w-64 bg-white rounded-md shadow-lg border border-slate-200 z-50 max-h-96 overflow-y-auto">
+                    <div className="p-4">
+                        <div className="flex justify-between items-center mb-4">
+                            <h3 className="text-sm font-semibold text-slate-900">Filters</h3>
+                            <button
+                                onClick={handleClearAllFilters}
+                                className="text-xs text-blue-600 hover:text-blue-800"
+                            >
+                                Clear All
+                            </button>
+                        </div>
+
+                        {/* File Type Filter */}
+                        <div className="mb-4">
+                            <label className="block text-xs font-medium text-slate-700 mb-2">File Type</label>
+                            <select
+                                value={activeFilters.fileType}
+                                onChange={(e) => handleFilterChange('fileType', e.target.value)}
+                                className="w-full text-sm border border-slate-300 rounded-md px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            >
+                                <option value="all">All Types</option>
+                                <option value="images">Images</option>
+                                <option value="pdfs">PDFs</option>
+                                <option value="documents">Documents</option>
+                                <option value="others">Others</option>
+                            </select>
+                        </div>
+
+                        {/* Date Range Filter */}
+                        <div className="mb-4">
+                            <label className="block text-xs font-medium text-slate-700 mb-2">Upload Date</label>
+                            <select
+                                value={activeFilters.dateRange}
+                                onChange={(e) => handleFilterChange('dateRange', e.target.value)}
+                                className="w-full text-sm border border-slate-300 rounded-md px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            >
+                                <option value="all">All Time</option>
+                                <option value="today">Today</option>
+                                <option value="week">This Week</option>
+                                <option value="month">This Month</option>
+                                <option value="year">This Year</option>
+                            </select>
+                        </div>
+
+                        {/* File Size Filter */}
+                        <div className="mb-2">
+                            <label className="block text-xs font-medium text-slate-700 mb-2">File Size</label>
+                            <select
+                                value={activeFilters.sizeRange}
+                                onChange={(e) => handleFilterChange('sizeRange', e.target.value)}
+                                className="w-full text-sm border border-slate-300 rounded-md px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            >
+                                <option value="all">All Sizes</option>
+                                <option value="small">Small (&lt; 1MB)</option>
+                                <option value="medium">Medium (1-10MB)</option>
+                                <option value="large">Large (&gt; 10MB)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            )}
+        </div>
+    </div>
+</div>
 
             {(showSortMenu || showFilterMenu) && (
                 <div
@@ -319,7 +319,7 @@ const MyFiles = () => {
                 </div>
             )}
 
-            <div className="px-8 @container">
+            <div className="px-8 @container min-h-[400px]">
                 {loading ? (
                     <table className="overflow-hidden bg-white rounded-lg border border-slate-200 shadow-sm min-w-full divide-y divide-slate-200">
                         <thead className="bg-slate-50">
