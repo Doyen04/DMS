@@ -3,7 +3,7 @@
 import { deleteUserFile } from "@/action/deleteUserFile";
 import { getUserFiles } from "@/action/getAllUserFiles";
 import BreadCrumb from "@/ui/breadcrumb";
-import { ArrowUpDown, Edit, Eye, Filter, FolderPlus, MoreHorizontal, Plus, Search, Star, Trash2, FileText, ImageIcon, Download } from "lucide-react";
+import { ArrowUpDown, Edit, Eye, Filter, FolderPlus, MoreHorizontal, Plus, Search, Star, Trash2, FileText, ImageIcon, Download, ChevronDown } from "lucide-react";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
@@ -18,10 +18,16 @@ interface FileData {
     userId: string;
 }
 
+type SortOption = 'name' | 'date' | 'size' | 'type';
+type SortOrder = 'asc' | 'desc';
+
 const MyFiles = () => {
     const [files, setFiles] = useState<FileData[]>([]);
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
+    const [sortBy, setSortBy] = useState<SortOption>('date');
+    const [sortOrder, setSortOrder] = useState<SortOrder>('desc');
+    const [showSortMenu, setShowSortMenu] = useState(false);
 
     useEffect(() => {
         fetchFiles();
@@ -48,7 +54,6 @@ const MyFiles = () => {
         try {
             const result = await deleteUserFile(fileId)
             if (result.success) {
-                // Remove the deleted file from the current state
                 setFiles(prevFiles => prevFiles.filter(file => file.id !== fileId))
                 toast.success('File deleted successfully')
             } else {
@@ -87,8 +92,54 @@ const MyFiles = () => {
         }
     };
 
-    const filteredFiles = files.filter(file =>
-        file.filename.toLowerCase().includes(searchTerm.toLowerCase())
+    const sortFiles = (files: FileData[]) => {
+        return [...files].sort((a, b) => {
+            let comparison = 0;
+            
+            switch (sortBy) {
+                case 'name':
+                    comparison = a.filename.localeCompare(b.filename);
+                    break;
+                case 'date':
+                    comparison = new Date(a.uploadedAt).getTime() - new Date(b.uploadedAt).getTime();
+                    break;
+                case 'size':
+                    comparison = a.size - b.size;
+                    break;
+                case 'type':
+                    comparison = a.contentType.localeCompare(b.contentType);
+                    break;
+            }
+            
+            return sortOrder === 'asc' ? comparison : -comparison;
+        });
+    };
+
+    const handleSort = (option: SortOption) => {
+        if (sortBy === option) {
+            setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+        } else {
+            setSortBy(option);
+            setSortOrder('asc');
+        }
+        setShowSortMenu(false);
+    };
+
+    const getSortLabel = () => {
+        const orderText = sortOrder === 'asc' ? '↑' : '↓';
+        switch (sortBy) {
+            case 'name': return `Name ${orderText}`;
+            case 'date': return `Date ${orderText}`;
+            case 'size': return `Size ${orderText}`;
+            case 'type': return `Type ${orderText}`;
+            default: return 'Sort';
+        }
+    };
+
+    const filteredAndSortedFiles = sortFiles(
+        files.filter(file =>
+            file.filename.toLowerCase().includes(searchTerm.toLowerCase())
+        )
     );
 
     return (
@@ -120,17 +171,48 @@ const MyFiles = () => {
                         onChange={(e) => setSearchTerm(e.target.value)}
                     />
                 </label>
-                <div className="flex gap-3">
-                    <button className="flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-md border border-slate-300 bg-white px-4 text-sm font-medium text-slate-700 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1">
-                        <ArrowUpDown className="h-4 w-4 text-slate-500" />
-                        <span>Sort</span>
-                    </button>
+                <div className="flex gap-3 relative">
+                    <div className="relative">
+                        <button 
+                            onClick={() => setShowSortMenu(!showSortMenu)}
+                            className="flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-md border border-slate-300 bg-white px-4 text-sm font-medium text-slate-700 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1"
+                        >
+                            <ArrowUpDown className="h-4 w-4 text-slate-500" />
+                            <span>{getSortLabel()}</span>
+                            <ChevronDown className="h-4 w-4 text-slate-500" />
+                        </button>
+                        {showSortMenu && (
+                            <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg border border-slate-200 z-50">
+                                <div className="py-1">
+                                    <button onClick={() => handleSort('name')} className="w-full text-left px-4 py-2 text-sm text-slate-700 hover:bg-slate-50">
+                                        Name {sortBy === 'name' && (sortOrder === 'asc' ? '↑' : '↓')}
+                                    </button>
+                                    <button onClick={() => handleSort('date')} className="w-full text-left px-4 py-2 text-sm text-slate-700 hover:bg-slate-50">
+                                        Date {sortBy === 'date' && (sortOrder === 'asc' ? '↑' : '↓')}
+                                    </button>
+                                    <button onClick={() => handleSort('size')} className="w-full text-left px-4 py-2 text-sm text-slate-700 hover:bg-slate-50">
+                                        Size {sortBy === 'size' && (sortOrder === 'asc' ? '↑' : '↓')}
+                                    </button>
+                                    <button onClick={() => handleSort('type')} className="w-full text-left px-4 py-2 text-sm text-slate-700 hover:bg-slate-50">
+                                        Type {sortBy === 'type' && (sortOrder === 'asc' ? '↑' : '↓')}
+                                    </button>
+                                </div>
+                            </div>
+                        )}
+                    </div>
                     <button className="flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-md border border-slate-300 bg-white px-4 text-sm font-medium text-slate-700 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1">
                         <Filter className="h-4 w-4 text-slate-500" />
                         <span>Filter</span>
                     </button>
                 </div>
             </div>
+
+            {showSortMenu && (
+                <div 
+                    className="fixed inset-0 z-40" 
+                    onClick={() => setShowSortMenu(false)}
+                />
+            )}
 
             <div className="px-8 @container">
                 {loading ? (
@@ -162,7 +244,7 @@ const MyFiles = () => {
                             </tr>
                         </tbody>
                     </table>
-                ) : files.length === 0 ? (
+                ) : filteredAndSortedFiles.length === 0 ? (
                     <div className="text-center py-12">
                         <FileText className="mx-auto h-12 w-12 text-slate-300" />
                         <h3 className="mt-2 text-sm font-semibold text-slate-900">No documents</h3>
@@ -197,7 +279,7 @@ const MyFiles = () => {
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-slate-200 bg-white">
-                            {filteredFiles.map((file) => (
+                            {filteredAndSortedFiles.map((file) => (
                                 <tr key={file.id} className="hover:bg-slate-50">
                                     <td className="whitespace-nowrap px-6 py-4 text-sm font-medium text-slate-800">
                                         <div className="flex items-center gap-2">
