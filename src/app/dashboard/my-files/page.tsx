@@ -131,6 +131,16 @@ const MyFiles = () => {
             </div>
 
             <div className="px-8 @container">
+                {loading && (
+                    <tr>
+                        <td colSpan={4} className="px-6 py-12 text-center">
+                            <div className="flex flex-col items-center">
+                                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto"></div>
+                                <p className="mt-2 text-slate-600">Loading files...</p>
+                            </div>
+                        </td>
+                    </tr>
+                )}
                 {filteredFiles.length === 0 ? (
                     <div className="text-center py-12">
                         <FileText className="mx-auto h-12 w-12 text-slate-300" />
@@ -167,16 +177,7 @@ const MyFiles = () => {
                         </thead>
 
                         <tbody className="divide-y divide-slate-200 bg-white">
-                            {loading ? (
-                                <tr>
-                                    <td colSpan={4} className="px-6 py-12 text-center">
-                                        <div className="flex flex-col items-center">
-                                            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto"></div>
-                                            <p className="mt-2 text-slate-600">Loading files...</p>
-                                        </div>
-                                    </td>
-                                </tr>
-                            ) : (
+                            {
                                 filteredFiles.map((file) => (
                                     <tr key={file.id} className="hover:bg-slate-50">
                                         <td className="whitespace-nowrap px-6 py-4 text-sm font-medium text-slate-800">
@@ -236,7 +237,7 @@ const MyFiles = () => {
                                         </td>
                                     </tr>
                                 ))
-                            )}
+                            }
                         </tbody>
                     </table>
                 )}
