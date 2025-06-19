@@ -162,7 +162,7 @@ const MyFiles = () => {
                             </tr>
                         </tbody>
                     </table>
-                ) : filteredFiles.length === 0 ? (
+                ) : files.length === 0 ? (
                     <div className="text-center py-12">
                         <FileText className="mx-auto h-12 w-12 text-slate-300" />
                         <h3 className="mt-2 text-sm font-semibold text-slate-900">No documents</h3>
