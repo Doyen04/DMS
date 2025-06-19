@@ -12,6 +12,7 @@ import {
 import Link from "next/link"
 import OverviewCard from "@/component/overviewCard";
 import BreadCrumb from "@/ui/breadcrumb";
+import { twMerge } from "tailwind-merge";
 
 // interface ActivityItemProps {
 //     actor?: { name: string; avatar?: string } // Actor might be the system or another user
@@ -105,7 +106,7 @@ export default function DashboardPage() {
     // ]
 
     const quickActions = [
-        { label: "Upload New File", icon: UploadCloud, variant: "default" as const, href: "/dashboard/upload" },
+        { label: "Upload New File", icon: UploadCloud, variant: "default" as const, href: "/dashboard/upload", bg:'text-blue-700 border-blue-200' },
         { label: "Create New Folder", icon: FolderPlus, variant: "outline" as const, href: "/dashboard/create-folder" },
         { label: "Share a File", icon: Share2, variant: "outline" as const, href: "/dashboard/share" },
         { label: "View Favorites", icon: Star, variant: "outline" as const, href: "/dashboard/favorites" },
@@ -136,12 +137,11 @@ export default function DashboardPage() {
                     </h1>
                     <div className="p-6 pt-0 flex flex-col gap-2">
                         {quickActions.map(items => (
-                            <Link className="flex items-center p-3 rounded-lg border border-gray-300 
-                            focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" key={items.label} href={items.href}>
+                            <Link className={twMerge(`flex items-center p-3 rounded-lg border border-gray-300 
+                            focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 ${items.bg}`)} key={items.label} href={items.href}>
                                 <button className="flex items-center gap-2 ">
                                     <items.icon />
                                     <p>{items.label}</p>
-
                                 </button>
                             </Link>
                         ))}
