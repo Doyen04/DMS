@@ -89,20 +89,6 @@ const MyFiles = () => {
         file.filename.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
-    if (loading) {
-        return (
-            <div className="flex flex-col gap-7.5">
-                <BreadCrumb text="My Files" />
-                <div className="px-8 flex justify-center items-center h-64">
-                    <div className="text-center">
-                        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto"></div>
-                        <p className="mt-2 text-slate-600">Loading files...</p>
-                    </div>
-                </div>
-            </div>
-        );
-    }
-
     return (
         <div className="flex flex-col gap-7.5">
             <BreadCrumb text="My Files" />
@@ -181,65 +167,76 @@ const MyFiles = () => {
                         </thead>
 
                         <tbody className="divide-y divide-slate-200 bg-white">
-                            {filteredFiles.map((file) => (
-                                <tr key={file.id} className="hover:bg-slate-50">
-                                    <td className="whitespace-nowrap px-6 py-4 text-sm font-medium text-slate-800">
-                                        <div className="flex items-center gap-2">
-                                            {getFileIcon(file.contentType)}
-                                            <span>{file.filename}</span>
-                                        </div>
-                                    </td>
-                                    <td className="whitespace-nowrap px-6 py-4 text-sm text-slate-500">
-                                        {formatDate(file.uploadedAt)}
-                                    </td>
-                                    <td className="whitespace-nowrap px-6 py-4 text-sm text-slate-500">
-                                        {formatFileSize(file.size)}
-                                    </td>
-                                    <td className="whitespace-nowrap px-6 py-4 text-sm font-medium">
-                                        <div className="flex items-center gap-3">
-                                            <button
-                                                aria-label="View"
-                                                className="text-blue-500 hover:text-blue-700"
-                                                onClick={() => window.open(file.url, '_blank')}
-                                            >
-                                                <Eye className="h-5 w-5" />
-                                            </button>
-                                            <button
-                                                aria-label="Edit"
-                                                className="text-orange-500 hover:text-orange-700"
-                                                onClick={() => {/* Add edit functionality */ }}
-                                            >
-                                                <Edit className="h-5 w-5" />
-                                            </button>
-                                            <button
-                                                aria-label="Star"
-                                                className="text-yellow-500 hover:text-yellow-700"
-                                                onClick={() => {/* Add star functionality */ }}
-                                            >
-                                                <Star className="h-5 w-5" />
-                                            </button>
-                                            <a
-                                                href={file.url}
-                                                download={file.filename}
-                                                aria-label="Download"
-                                                className="text-green-500 hover:text-green-700"
-                                            >
-                                                <Download className="h-5 w-5" />
-                                            </a>
-                                            <button
-                                                aria-label="Delete"
-                                                className="text-red-500 hover:text-red-700"
-                                                onClick={() => deleteFile(file.id)}
-                                            >
-                                                <Trash2 className="h-5 w-5" />
-                                            </button>
-                                            <button aria-label="More options" className="text-slate-500 hover:text-slate-700">
-                                                <MoreHorizontal className="h-5 w-5" />
-                                            </button>
+                            {loading ? (
+                                <tr>
+                                    <td colSpan={4} className="px-6 py-12 text-center">
+                                        <div className="flex flex-col items-center">
+                                            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto"></div>
+                                            <p className="mt-2 text-slate-600">Loading files...</p>
                                         </div>
                                     </td>
                                 </tr>
-                            ))}
+                            ) : (
+                                filteredFiles.map((file) => (
+                                    <tr key={file.id} className="hover:bg-slate-50">
+                                        <td className="whitespace-nowrap px-6 py-4 text-sm font-medium text-slate-800">
+                                            <div className="flex items-center gap-2">
+                                                {getFileIcon(file.contentType)}
+                                                <span>{file.filename}</span>
+                                            </div>
+                                        </td>
+                                        <td className="whitespace-nowrap px-6 py-4 text-sm text-slate-500">
+                                            {formatDate(file.uploadedAt)}
+                                        </td>
+                                        <td className="whitespace-nowrap px-6 py-4 text-sm text-slate-500">
+                                            {formatFileSize(file.size)}
+                                        </td>
+                                        <td className="whitespace-nowrap px-6 py-4 text-sm font-medium">
+                                            <div className="flex items-center gap-3">
+                                                <button
+                                                    aria-label="View"
+                                                    className="text-blue-500 hover:text-blue-700"
+                                                    onClick={() => window.open(file.url, '_blank')}
+                                                >
+                                                    <Eye className="h-5 w-5" />
+                                                </button>
+                                                <button
+                                                    aria-label="Edit"
+                                                    className="text-orange-500 hover:text-orange-700"
+                                                    onClick={() => {/* Add edit functionality */ }}
+                                                >
+                                                    <Edit className="h-5 w-5" />
+                                                </button>
+                                                <button
+                                                    aria-label="Star"
+                                                    className="text-yellow-500 hover:text-yellow-700"
+                                                    onClick={() => {/* Add star functionality */ }}
+                                                >
+                                                    <Star className="h-5 w-5" />
+                                                </button>
+                                                <a
+                                                    href={file.url}
+                                                    download={file.filename}
+                                                    aria-label="Download"
+                                                    className="text-green-500 hover:text-green-700"
+                                                >
+                                                    <Download className="h-5 w-5" />
+                                                </a>
+                                                <button
+                                                    aria-label="Delete"
+                                                    className="text-red-500 hover:text-red-700"
+                                                    onClick={() => deleteFile(file.id)}
+                                                >
+                                                    <Trash2 className="h-5 w-5" />
+                                                </button>
+                                                <button aria-label="More options" className="text-slate-500 hover:text-slate-700">
+                                                    <MoreHorizontal className="h-5 w-5" />
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                ))
+                            )}
                         </tbody>
                     </table>
                 )}
