@@ -131,17 +131,36 @@ const MyFiles = () => {
             </div>
 
             <div className="px-8 @container">
-                {loading && (
-                    <tr>
-                        <td colSpan={4} className="px-6 py-12 text-center">
-                            <div className="flex flex-col items-center">
-                                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto"></div>
-                                <p className="mt-2 text-slate-600">Loading files...</p>
-                            </div>
-                        </td>
-                    </tr>
-                )}
-                {filteredFiles.length === 0 ? (
+                {loading ? (
+                    <table className="overflow-hidden bg-white rounded-lg border border-slate-200 shadow-sm min-w-full divide-y divide-slate-200">
+                        <thead className="bg-slate-50">
+                            <tr>
+                                <th className="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-slate-500" scope="col">
+                                    Name
+                                </th>
+                                <th className="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-slate-500" scope="col">
+                                    Upload Date
+                                </th>
+                                <th className="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-slate-500" scope="col">
+                                    Size
+                                </th>
+                                <th className="relative px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-slate-500" scope="col">
+                                    Actions
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody className="divide-y divide-slate-200 bg-white">
+                            <tr>
+                                <td colSpan={4} className="px-6 py-12 text-center">
+                                    <div className="flex flex-col items-center">
+                                        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto"></div>
+                                        <p className="mt-2 text-slate-600">Loading files...</p>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                ) : filteredFiles.length === 0 ? (
                     <div className="text-center py-12">
                         <FileText className="mx-auto h-12 w-12 text-slate-300" />
                         <h3 className="mt-2 text-sm font-semibold text-slate-900">No documents</h3>
@@ -175,69 +194,66 @@ const MyFiles = () => {
                                 </th>
                             </tr>
                         </thead>
-
                         <tbody className="divide-y divide-slate-200 bg-white">
-                            {
-                                filteredFiles.map((file) => (
-                                    <tr key={file.id} className="hover:bg-slate-50">
-                                        <td className="whitespace-nowrap px-6 py-4 text-sm font-medium text-slate-800">
-                                            <div className="flex items-center gap-2">
-                                                {getFileIcon(file.contentType)}
-                                                <span>{file.filename}</span>
-                                            </div>
-                                        </td>
-                                        <td className="whitespace-nowrap px-6 py-4 text-sm text-slate-500">
-                                            {formatDate(file.uploadedAt)}
-                                        </td>
-                                        <td className="whitespace-nowrap px-6 py-4 text-sm text-slate-500">
-                                            {formatFileSize(file.size)}
-                                        </td>
-                                        <td className="whitespace-nowrap px-6 py-4 text-sm font-medium">
-                                            <div className="flex items-center gap-3">
-                                                <button
-                                                    aria-label="View"
-                                                    className="text-blue-500 hover:text-blue-700"
-                                                    onClick={() => window.open(file.url, '_blank')}
-                                                >
-                                                    <Eye className="h-5 w-5" />
-                                                </button>
-                                                <button
-                                                    aria-label="Edit"
-                                                    className="text-orange-500 hover:text-orange-700"
-                                                    onClick={() => {/* Add edit functionality */ }}
-                                                >
-                                                    <Edit className="h-5 w-5" />
-                                                </button>
-                                                <button
-                                                    aria-label="Star"
-                                                    className="text-yellow-500 hover:text-yellow-700"
-                                                    onClick={() => {/* Add star functionality */ }}
-                                                >
-                                                    <Star className="h-5 w-5" />
-                                                </button>
-                                                <a
-                                                    href={file.url}
-                                                    download={file.filename}
-                                                    aria-label="Download"
-                                                    className="text-green-500 hover:text-green-700"
-                                                >
-                                                    <Download className="h-5 w-5" />
-                                                </a>
-                                                <button
-                                                    aria-label="Delete"
-                                                    className="text-red-500 hover:text-red-700"
-                                                    onClick={() => deleteFile(file.id)}
-                                                >
-                                                    <Trash2 className="h-5 w-5" />
-                                                </button>
-                                                <button aria-label="More options" className="text-slate-500 hover:text-slate-700">
-                                                    <MoreHorizontal className="h-5 w-5" />
-                                                </button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                ))
-                            }
+                            {filteredFiles.map((file) => (
+                                <tr key={file.id} className="hover:bg-slate-50">
+                                    <td className="whitespace-nowrap px-6 py-4 text-sm font-medium text-slate-800">
+                                        <div className="flex items-center gap-2">
+                                            {getFileIcon(file.contentType)}
+                                            <span>{file.filename}</span>
+                                        </div>
+                                    </td>
+                                    <td className="whitespace-nowrap px-6 py-4 text-sm text-slate-500">
+                                        {formatDate(file.uploadedAt)}
+                                    </td>
+                                    <td className="whitespace-nowrap px-6 py-4 text-sm text-slate-500">
+                                        {formatFileSize(file.size)}
+                                    </td>
+                                    <td className="whitespace-nowrap px-6 py-4 text-sm font-medium">
+                                        <div className="flex items-center gap-3">
+                                            <button
+                                                aria-label="View"
+                                                className="text-blue-500 hover:text-blue-700"
+                                                onClick={() => window.open(file.url, '_blank')}
+                                            >
+                                                <Eye className="h-5 w-5" />
+                                            </button>
+                                            <button
+                                                aria-label="Edit"
+                                                className="text-orange-500 hover:text-orange-700"
+                                                onClick={() => {/* Add edit functionality */ }}
+                                            >
+                                                <Edit className="h-5 w-5" />
+                                            </button>
+                                            <button
+                                                aria-label="Star"
+                                                className="text-yellow-500 hover:text-yellow-700"
+                                                onClick={() => {/* Add star functionality */ }}
+                                            >
+                                                <Star className="h-5 w-5" />
+                                            </button>
+                                            <a
+                                                href={file.url}
+                                                download={file.filename}
+                                                aria-label="Download"
+                                                className="text-green-500 hover:text-green-700"
+                                            >
+                                                <Download className="h-5 w-5" />
+                                            </a>
+                                            <button
+                                                aria-label="Delete"
+                                                className="text-red-500 hover:text-red-700"
+                                                onClick={() => deleteFile(file.id)}
+                                            >
+                                                <Trash2 className="h-5 w-5" />
+                                            </button>
+                                            <button aria-label="More options" className="text-slate-500 hover:text-slate-700">
+                                                <MoreHorizontal className="h-5 w-5" />
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            ))}
                         </tbody>
                     </table>
                 )}
