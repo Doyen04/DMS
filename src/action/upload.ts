@@ -3,7 +3,6 @@
 import { auth } from '@/lib/auth'
 import { put } from '@vercel/blob'
 import prisma from '@/lib/prisma'
-import { redirect } from 'next/navigation'
 
 export default async function handleFileUpload(formData: FormData) {
   try {

@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState} from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
@@ -31,7 +31,8 @@ export const useFileUpload = () => {
         try {
             const formData = new FormData();
             formData.append('file', file);
-
+            console.log(formData.get('file'));
+            
             const response = await axios.post('/api/upload', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
@@ -53,7 +54,9 @@ export const useFileUpload = () => {
                 toast.success(`${file.name} uploaded successfully!`);
             }
 
-        } catch (error: any) {
+        } catch (error) {
+            console.log(error);
+            
             setUploadingFiles(prev =>
                 prev.map(f => f.id === fileId ? { ...f, status: 'error' } : f)
             );

@@ -12,7 +12,7 @@ export default function DashboardLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <div className="max-w-screen min-h-screen grid grid-cols-[12%_87%]">
+        <div className="max-w-screen min-h-screen grid grid-cols-[12%_87%] bg-white">
             <Sidebar />
             {children}
         </div>

@@ -29,8 +29,8 @@ const SignIn = () => {
                 </Link>
             </nav>
             <div className="w-[350px] h-[410px] bg-white border-2 border-[#e6f0ff] shadow-lg shadow-gray-500 flex flex-col gap-2 items-center p-2 pt-9 rounded-lg">
-                <div className="text-xl font-extrabold font-inter">Sign in to FileServer</div>
-                <div className="text-center w-[290px] text-xs">Enter your credential to access your account.</div>
+                <div className="text-xl font-extrabold font-inter text-black">Sign in to FileServer</div>
+                <div className="text-center w-[290px] text-xs text-black">Enter your credential to access your account.</div>
                 <form action={formAction} className="flex flex-col gap-4 p-4 w-full">
                     <Input type="email" name="email"
                         defaultValue={state.values?.email}
