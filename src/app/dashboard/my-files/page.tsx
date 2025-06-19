@@ -319,7 +319,7 @@ const MyFiles = () => {
                 </div>
             )}
 
-            <div className="px-8 @container min-h-[400px]">
+            <div className="px-8 @container">
                 {loading ? (
                     <table className="overflow-hidden bg-white rounded-lg border border-slate-200 shadow-sm min-w-full divide-y divide-slate-200">
                         <thead className="bg-slate-50">
