@@ -9,7 +9,7 @@ interface BreadCrumbProps{
 
 const BreadCrumb:React.FC<BreadCrumbProps> = ({text}) => {
     return (
-        <div className="px-8 flex items-center h-1/12 border-b border-gray-300">
+        <div className="px-8 py-4 flex items-center border-b border-gray-300">
             <Link href="/dashboard" className="text-sm text-gray-500">My Dashboard</Link>
             <ChevronRight className="h-4 w-4" />
             <div className="text-sm">{text}</div>
