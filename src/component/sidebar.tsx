@@ -17,9 +17,9 @@ const mainNavItems = [
 ]
 
 const userSettingsNavItems = [
-    { href: "/dashboard/settings/profile", label: "Profile", icon: UserCircle },
-    { href: "/dashboard/settings/security", label: "Security", icon: ShieldCheck },
-    { href: "/dashboard/settings/notifications", label: "Notifications", icon: Bell, badge: "3" },
+    { href: "/dashboard/profile", label: "Profile", icon: UserCircle },
+    { href: "/dashboard/security", label: "Security", icon: ShieldCheck },
+    { href: "/dashboard/notifications", label: "Notifications", icon: Bell, badge: "3" },
 ]
 
 
