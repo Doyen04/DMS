@@ -46,7 +46,7 @@ const Sidebar = () => {
             </div>
             {mainNavItems.map(items => (
                 <Link href={items.href} key={items.href}>
-                    <div className={`group flex items-center gap-1.5 p-1.5 rounded-sm hover:bg-slate-800 active:bg-blue-600 transition-colors cursor-pointer relative ${params === items.href ? 'bg-blue-600' : ''} `}>
+                    <div className={`group flex items-center gap-1.5 p-1.5 rounded-sm hover:bg-slate-800 active:bg-blue-600 transition-colors cursor-pointer relative ${params === items.href ? 'bg-blue-600' : ''} ${!isMobile ? 'xl:justify-start justify-center' : ''}`}>
                         <items.icon size={15} />
                         <p className={`text-sm ${isMobile ? 'block' : 'hidden xl:block'}`}>{items.label}</p>
                         {/* Tooltip for tablet view */}
@@ -61,7 +61,7 @@ const Sidebar = () => {
             <div className="border-t border-slate-700 my-4"></div>
             {userSettingsNavItems.map(items => (
                 <Link href={items.href} key={items.href}>
-                    <div className={`group flex items-center gap-1.5 p-1.5 rounded-sm hover:bg-slate-800 active:bg-blue-600 transition-colors cursor-pointer relative ${params === items.href ? 'bg-blue-600' : ''} `}>
+                    <div className={`group flex items-center gap-1.5 p-1.5 rounded-sm hover:bg-slate-800 active:bg-blue-600 transition-colors cursor-pointer relative ${params === items.href ? 'bg-blue-600' : ''} ${!isMobile ? 'xl:justify-start justify-center' : ''}`}>
                         <items.icon size={15} />
                         <p className={`text-sm ${isMobile ? 'block' : 'hidden xl:block'}`}>{items.label}</p>
                         {items.badge && (
@@ -81,7 +81,7 @@ const Sidebar = () => {
             ))}
             <div className="mt-auto p-1 bottom-0">
                 {bottonNav.map(items => (
-                    <div onClick={items.onClick} key={items.label} className={`group flex items-center gap-1.5 p-1.5 rounded-sm hover:bg-slate-800 active:bg-blue-600 transition-colors cursor-pointer relative `}>
+                    <div onClick={items.onClick} key={items.label} className={`group flex items-center gap-1.5 p-1.5 rounded-sm hover:bg-slate-800 active:bg-blue-600 transition-colors cursor-pointer relative ${!isMobile ? 'xl:justify-start justify-center' : ''}`}>
                         <items.icon size={15} />
                         <p className={`text-sm ${isMobile ? 'block' : 'hidden xl:block'}`}>{items.label}</p>
                         {/* Tooltip for tablet view */}
