@@ -42,7 +42,7 @@ const Sidebar = () => {
     const SidebarContent = ({ isMobile = false }) => (
         <>
             <div className="bg-white rounded-sm mt-2.5 mb-4 p-2.5">
-                <Logo mobile={isMobile}/>
+                <Logo mobile={false}/>
             </div>
             {mainNavItems.map(items => (
                 <Link href={items.href} key={items.href}>
