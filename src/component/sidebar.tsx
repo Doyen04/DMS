@@ -43,8 +43,12 @@ const Sidebar = () => {
         <>
             <div className="bg-white rounded-sm mt-2.5 mb-4 p-2.5">
                 <Logo mobile={!isMobile} />
+                <p className={`text-sm ${isMobile ? 'block' : 'hidden xl:block'}`}>DMS</p>
+                {/* Tooltip for tablet view */}
                 {!isMobile && (
-                    <p className="text-sm text-slate-500 mt-1">DMS</p>
+                    <div className="absolute left-full ml-2 px-2 py-1 bg-slate-800 text-white text-sm rounded opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 whitespace-nowrap z-50 xl:hidden">
+                        DMS
+                    </div>
                 )}
             </div>
             {mainNavItems.map(items => (
