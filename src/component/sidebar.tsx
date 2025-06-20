@@ -105,22 +105,22 @@ const Sidebar = () => {
             >
                 <Menu size={20} />
             </button>
-
-            {/* Mobile Overlay */}
+    
+            {/* Mobile Overlay - Made transparent */}
             {isMobileMenuOpen && (
                 <div 
-                    className="fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden"
+                    className="fixed inset-0 bg-transparent z-40 md:hidden"
                     onClick={() => setIsMobileMenuOpen(false)}
                 />
             )}
-
+    
             {/* Desktop/Tablet Sidebar */}
             <div className="hidden md:block fixed left-0 top-0 w-16 xl:w-[12%] h-screen bg-slate-900 text-white flex-col gap-1.5 p-2 z-30">
                 <div className="flex flex-col gap-1.5 h-full">
                     <SidebarContent isMobile={false} />
                 </div>
             </div>
-
+    
             {/* Mobile Sidebar */}
             <div className={`fixed left-0 top-0 w-64 h-screen bg-slate-900 text-white flex flex-col gap-1.5 p-2 z-50 transform transition-transform duration-300 ease-in-out md:hidden ${
                 isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'
