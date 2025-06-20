@@ -22,7 +22,6 @@ const ProfilePage = () => {
                 bio: 'Software Developer passionate about building efficient document management systems.'
             })
         }
-        console.log('User session:', session)
     }, [session])
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {

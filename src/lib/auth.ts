@@ -58,14 +58,14 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             if (user) {
                 token.id = user.id
                 token.email = user.email
-                token.name = user.fullname // Add this line
+                token.fullname = user.fullname // Add this line
             }
             return token
         },
         async session({ session, token }) {
             session.user.id = token.id as string
             session.user.email = token.email as string
-            session.user.name = token.name as string // Add this line
+            session.user.fullname = token.fullname as string // Add this line
             return session
         },
 

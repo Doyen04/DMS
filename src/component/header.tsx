@@ -17,6 +17,7 @@ const Header: React.FC = () => {
     } = useUserAuth()
 
     useEffect(() => {
+        console.log('User session:', session)
         return setSession(session ? {
             ...session,
             user: {
