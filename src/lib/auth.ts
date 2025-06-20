@@ -33,7 +33,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
 
                 // return user object with their profile data
-                return { id: user.id, fullname: user.fullname, email: user.email }
+                return { id: user.id, fullname: user.fullname || "", email: user.email }
             },
 
         }),
@@ -58,12 +58,14 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             if (user) {
                 token.id = user.id
                 token.email = user.email
+                token.fullname = user.fullname // Add this line
             }
             return token
         },
         async session({ session, token }) {
             session.user.id = token.id as string
             session.user.email = token.email as string
+            session.user.name = token.fullname as string // Add this line
             return session
         },
 
