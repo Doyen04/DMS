@@ -17,7 +17,7 @@ const ProfilePage = () => {
     useEffect(() => {
         if (session?.user) {
             setFormData({
-                fullname: session.user.name || '',
+                fullname: session.user.fullname || '',
                 email: session.user.email || '',
                 bio: 'Software Developer passionate about building efficient document management systems.'
             })
@@ -47,7 +47,7 @@ const ProfilePage = () => {
         // Reset form data to original session data
         if (session?.user) {
             setFormData({
-                fullname: session.user.name || '',
+                fullname: session.user.fullname || '',
                 email: session.user.email || '',
                 bio: 'Software Developer passionate about building efficient document management systems.'
             })

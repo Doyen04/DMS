@@ -22,7 +22,7 @@ const Header: React.FC = () => {
             user: {
                 id: session.user?.id || '',
                 email: session.user?.email || '',
-                name: session.user?.name || ''
+                fullname: session.user?.fullname || ''
             }
         } : null);
     }, [session, setSession])
@@ -60,12 +60,12 @@ const Header: React.FC = () => {
                                     <div className="flex items-center space-x-2 px-3 py-2 rounded-lg bg-slate-50 border border-slate-200">
                                         <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-indigo-500 rounded-full flex items-center justify-center">
                                             <span className="text-white text-xs font-semibold">
-                                                {session?.user?.name?.charAt(0) || 'U'}
+                                                {session?.user?.fullname?.charAt(0) || 'U'}
                                             </span>
                                         </div>
                                         <div className="text-sm">
                                             <div className="font-medium text-slate-900">
-                                                {session?.user?.name || 'User'}
+                                                {session?.user?.fullname || 'User'}
                                             </div>
                                         </div>
                                     </div>
@@ -151,12 +151,12 @@ const Header: React.FC = () => {
                             <div className="flex items-center space-x-3 p-3 bg-slate-50 rounded-lg">
                                 <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-indigo-500 rounded-full flex items-center justify-center">
                                     <span className="text-white font-semibold">
-                                        {session?.user?.name?.charAt(0) || 'U'}
+                                        {session?.user?.fullname?.charAt(0) || 'U'}
                                     </span>
                                 </div>
                                 <div>
                                     <div className="font-medium text-slate-900">
-                                        {session?.user?.name || 'User'}
+                                        {session?.user?.fullname || 'User'}
                                     </div>
                                     <div className="text-sm text-slate-600">
                                         {session?.user?.email}
