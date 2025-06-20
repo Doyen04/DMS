@@ -82,7 +82,7 @@ const MyFiles = () => {
 
 
     return (
-        <div className="flex flex-col gap-7.5">
+        <div className="flex flex-col gap-7.5 min-h-screen">
             <BreadCrumb text="My Files" />
 
             <div className="px-8 flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">

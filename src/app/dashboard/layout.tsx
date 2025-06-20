@@ -14,7 +14,7 @@ export default function DashboardLayout({
     return (
         <div className="max-w-screen min-h-screen bg-white">
             <Sidebar />
-            <div className="ml-[12%] overflow-y-auto">
+            <div className="ml-[12%] overflow-y-auto min-h-screen">
                 {children}
             </div>
         </div>
