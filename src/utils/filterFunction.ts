@@ -103,3 +103,15 @@ export const updateFilter = (activeFilters: ActiveFilters, filterType: string, v
         [filterType]: value
     };
 };
+
+export const handleFilterChange = (
+    activeFilters: any,
+    filterType: string,
+    value: string
+) => {
+    return updateFilter(activeFilters, filterType, value);
+};
+
+export const handleClearAllFilters = () => {
+    return clearAllFilters();
+};

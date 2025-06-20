@@ -1,14 +1,13 @@
 'use client'
 
-import { deleteUserFile } from "@/action/deleteUserFile";
-import { getUserFiles } from "@/action/getAllUserFiles";
 import BreadCrumb from "@/ui/breadcrumb";
-import { ArrowUpDown, Edit, Eye, Filter, FolderPlus, MoreHorizontal, Plus, Search, Star, Trash2, FileText, ImageIcon, Download, ChevronDown } from "lucide-react";
+import { ArrowUpDown, Edit, Eye, Filter, FolderPlus, MoreHorizontal, Plus, Search, Star, Trash2, FileText, Download, ChevronDown } from "lucide-react";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import { toast } from "react-toastify";
-import { filterFiles, searchFiles, getActiveFilterCount, clearAllFilters, updateFilter } from "@/utils/filterFunction";
-import { sortFiles, getSortLabel, handleSortToggle, SortOption, SortOrder } from "@/utils/sortFunction";
+import { filterFiles, searchFiles, getActiveFilterCount, handleClearAllFilters, handleFilterChange } from "@/utils/filterFunction";
+import { sortFiles, getSortLabel, SortOption, SortOrder, handleSort } from "@/utils/sortFunction";
+import { deleteFile, fetchFiles } from "@/utils/fileOperation";
+import { formatDate, formatFileSize, getFileIcon } from "@/utils/fileUtility";
 
 interface FileData {
     id: string;
@@ -35,82 +34,39 @@ const MyFiles = () => {
     });
 
     useEffect(() => {
-        fetchFiles();
+        loadFiles();
     }, []);
 
-    const fetchFiles = async () => {
-        try {
-            const result = await getUserFiles()
-            if (result.success) {
-                setFiles(result.files || [])
-            } else {
-                toast.error('Failed to fetch files: ' + result.error)
-            }
-        } catch (error) {
-            console.error('Error fetching files:', error)
-        } finally {
-            setLoading(false)
+    const loadFiles = async () => {
+        setLoading(true);
+        const filesData = await fetchFiles();
+        if (filesData) {
+            setFiles(filesData);
+        }
+        setLoading(false);
+    };
+
+    const handleDeleteFile = async (fileId: string) => {
+        const success = await deleteFile(fileId);
+        if (success) {
+            setFiles(prevFiles => prevFiles.filter(file => file.id !== fileId));
         }
     };
 
-    const deleteFile = async (fileId: string) => {
-        if (!confirm('Are you sure you want to delete this file?')) return;
-
-        try {
-            const result = await deleteUserFile(fileId)
-            if (result.success) {
-                setFiles(prevFiles => prevFiles.filter(file => file.id !== fileId))
-                toast.success('File deleted successfully')
-            } else {
-                console.error('Failed to delete file:', result.error)
-                toast.error('Failed to delete file: ' + result.error)
-            }
-        } catch (error) {
-            console.error('Error deleting file:', error)
-            toast.error('Error deleting file')
-        }
-    };
-
-    const formatFileSize = (bytes: number) => {
-        if (bytes === 0) return '0 Bytes';
-        const k = 1024;
-        const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-        const i = Math.floor(Math.log(bytes) / Math.log(k));
-        return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
-    };
-
-    const formatDate = (dateString: string) => {
-        return new Date(dateString).toLocaleDateString('en-US', {
-            year: 'numeric',
-            month: 'short',
-            day: 'numeric'
-        });
-    };
-
-    const getFileIcon = (contentType: string) => {
-        if (contentType.startsWith('image/')) {
-            return <ImageIcon className="h-4 w-4 text-green-500" />;
-        } else if (contentType === 'application/pdf') {
-            return <FileText className="h-4 w-4 text-red-500" />;
-        } else {
-            return <FileText className="h-4 w-4 text-blue-500" />;
-        }
-    };
-
-    const handleSort = (option: SortOption) => {
-        const { sortBy: newSortBy, sortOrder: newSortOrder } = handleSortToggle(sortBy, sortOrder, option);
+    const handleSortChange = (option: SortOption) => {
+        const { sortBy: newSortBy, sortOrder: newSortOrder } = handleSort(sortBy, sortOrder, option);
         setSortBy(newSortBy);
         setSortOrder(newSortOrder);
         setShowSortMenu(false);
     };
 
-    const handleFilterChange = (filterType: string, value: string) => {
-        setActiveFilters(prev => updateFilter(prev, filterType, value));
+    const handleFilterChangeLocal = (filterType: string, value: string) => {
+        setActiveFilters(prev => handleFilterChange(prev, filterType, value));
         setShowFilterMenu(false);
     };
 
-    const handleClearAllFilters = () => {
-        setActiveFilters(clearAllFilters());
+    const handleClearFilters = () => {
+        setActiveFilters(handleClearAllFilters());
         setShowFilterMenu(false);
     };
 
@@ -124,9 +80,11 @@ const MyFiles = () => {
         sortOrder
     );
 
+
     return (
         <div className="flex flex-col gap-7.5">
             <BreadCrumb text="My Files" />
+
             <div className="px-8 flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
                 <h1 className="text-slate-900 text-3xl font-semibold leading-tight tracking-tight">My Documents</h1>
                 <div className="flex gap-2">
@@ -166,16 +124,16 @@ const MyFiles = () => {
                         {showSortMenu && (
                             <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg border border-slate-200 z-50">
                                 <div className="py-1">
-                                    <button onClick={() => handleSort('name')} className="w-full text-left px-4 py-2 text-sm text-slate-700 hover:bg-slate-50">
+                                    <button onClick={() => handleSortChange('name')} className="w-full text-left px-4 py-2 text-sm text-slate-700 hover:bg-slate-50">
                                         Name {sortBy === 'name' && (sortOrder === 'asc' ? '↑' : '↓')}
                                     </button>
-                                    <button onClick={() => handleSort('date')} className="w-full text-left px-4 py-2 text-sm text-slate-700 hover:bg-slate-50">
+                                    <button onClick={() => handleSortChange('date')} className="w-full text-left px-4 py-2 text-sm text-slate-700 hover:bg-slate-50">
                                         Date {sortBy === 'date' && (sortOrder === 'asc' ? '↑' : '↓')}
                                     </button>
-                                    <button onClick={() => handleSort('size')} className="w-full text-left px-4 py-2 text-sm text-slate-700 hover:bg-slate-50">
+                                    <button onClick={() => handleSortChange('size')} className="w-full text-left px-4 py-2 text-sm text-slate-700 hover:bg-slate-50">
                                         Size {sortBy === 'size' && (sortOrder === 'asc' ? '↑' : '↓')}
                                     </button>
-                                    <button onClick={() => handleSort('type')} className="w-full text-left px-4 py-2 text-sm text-slate-700 hover:bg-slate-50">
+                                    <button onClick={() => handleSortChange('type')} className="w-full text-left px-4 py-2 text-sm text-slate-700 hover:bg-slate-50">
                                         Type {sortBy === 'type' && (sortOrder === 'asc' ? '↑' : '↓')}
                                     </button>
                                 </div>
@@ -201,7 +159,7 @@ const MyFiles = () => {
                                     <div className="flex justify-between items-center mb-4">
                                         <h3 className="text-sm font-semibold text-slate-900">Filters</h3>
                                         <button
-                                            onClick={handleClearAllFilters}
+                                            onClick={handleClearFilters}
                                             className="text-xs text-blue-600 hover:text-blue-800"
                                         >
                                             Clear All
@@ -213,7 +171,7 @@ const MyFiles = () => {
                                         <label className="block text-xs font-medium text-slate-700 mb-2">File Type</label>
                                         <select
                                             value={activeFilters.fileType}
-                                            onChange={(e) => handleFilterChange('fileType', e.target.value)}
+                                            onChange={(e) => handleFilterChangeLocal('fileType', e.target.value)}
                                             className="w-full text-sm border border-slate-300 rounded-md px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-blue-500"
                                         >
                                             <option value="all">All Types</option>
@@ -229,7 +187,7 @@ const MyFiles = () => {
                                         <label className="block text-xs font-medium text-slate-700 mb-2">Upload Date</label>
                                         <select
                                             value={activeFilters.dateRange}
-                                            onChange={(e) => handleFilterChange('dateRange', e.target.value)}
+                                            onChange={(e) => handleFilterChangeLocal('dateRange', e.target.value)}
                                             className="w-full text-sm border border-slate-300 rounded-md px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-blue-500"
                                         >
                                             <option value="all">All Time</option>
@@ -245,7 +203,7 @@ const MyFiles = () => {
                                         <label className="block text-xs font-medium text-slate-700 mb-2">File Size</label>
                                         <select
                                             value={activeFilters.sizeRange}
-                                            onChange={(e) => handleFilterChange('sizeRange', e.target.value)}
+                                            onChange={(e) => handleFilterChangeLocal('sizeRange', e.target.value)}
                                             className="w-full text-sm border border-slate-300 rounded-md px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-blue-500"
                                         >
                                             <option value="all">All Sizes</option>
@@ -280,7 +238,7 @@ const MyFiles = () => {
                             <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
                                 Type: {activeFilters.fileType}
                                 <button
-                                    onClick={() => handleFilterChange('fileType', 'all')}
+                                    onClick={() => handleFilterChangeLocal('fileType', 'all')}
                                     className="ml-1.5 inline-flex items-center justify-center w-4 h-4 rounded-full hover:bg-blue-200"
                                 >
                                     ×
@@ -291,7 +249,7 @@ const MyFiles = () => {
                             <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
                                 Date: {activeFilters.dateRange}
                                 <button
-                                    onClick={() => handleFilterChange('dateRange', 'all')}
+                                    onClick={() => handleFilterChangeLocal('dateRange', 'all')}
                                     className="ml-1.5 inline-flex items-center justify-center w-4 h-4 rounded-full hover:bg-green-200"
                                 >
                                     ×
@@ -302,7 +260,7 @@ const MyFiles = () => {
                             <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
                                 Size: {activeFilters.sizeRange}
                                 <button
-                                    onClick={() => handleFilterChange('sizeRange', 'all')}
+                                    onClick={() => handleFilterChangeLocal('sizeRange', 'all')}
                                     className="ml-1.5 inline-flex items-center justify-center w-4 h-4 rounded-full hover:bg-purple-200"
                                 >
                                     ×
@@ -432,7 +390,7 @@ const MyFiles = () => {
                                             <button
                                                 aria-label="Delete"
                                                 className="text-red-500 hover:text-red-700"
-                                                onClick={() => deleteFile(file.id)}
+                                                onClick={() => handleDeleteFile(file.id)}
                                             >
                                                 <Trash2 className="h-5 w-5" />
                                             </button>

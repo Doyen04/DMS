@@ -62,3 +62,12 @@ export const handleSortToggle = (
         };
     }
 };
+
+export const handleSort = (
+    currentSortBy: SortOption,
+    currentSortOrder: SortOrder,
+    option: SortOption
+) => {
+    return handleSortToggle(currentSortBy, currentSortOrder, option);
+};
+
