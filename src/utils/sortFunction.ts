@@ -35,7 +35,7 @@ export const sortFiles = (files: FileData[], sortBy: SortOption, sortOrder: Sort
 };
 
 export const getSortLabel = (sortBy: SortOption, sortOrder: SortOrder) => {
-    const orderText = sortOrder === 'asc' ? '<span>↑</span>' : '<span>↓</span>';
+    const orderText = sortOrder === 'asc' ? '↑' : '↓';
     switch (sortBy) {
         case 'name': return `Name ${orderText}`;
         case 'date': return `Date ${orderText}`;
