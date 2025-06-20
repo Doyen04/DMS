@@ -118,7 +118,7 @@ const MyFiles = () => {
                             className="flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-md border border-slate-300 bg-white px-4 text-sm font-medium text-slate-700 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1"
                         >
                             <ArrowUpDown className="h-4 w-4 text-slate-500" />
-                            <span>{getSortLabel(sortBy, sortOrder)}</span>
+                            <span className="flex">{getSortLabel(sortBy, sortOrder)}</span>
                             <ChevronDown className="h-4 w-4 text-slate-500" />
                         </button>
                         {showSortMenu && (
