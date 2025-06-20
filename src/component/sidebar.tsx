@@ -39,38 +39,57 @@ const Sidebar = () => {
         { label: 'Logout', icon: LogOut, onClick: () => { } },
     ]
 
-    const SidebarContent = () => (
+    const SidebarContent = ({ isMobile = false }) => (
         <>
             <div className="bg-white rounded-sm mt-2.5 mb-4 p-2.5">
                 <Logo />
             </div>
             {mainNavItems.map(items => (
                 <Link href={items.href} key={items.href}>
-                    <div className={`flex items-center gap-1.5 p-1.5 rounded-sm hover:bg-slate-800 active:bg-blue-600 transition-colors cursor-pointer ${params === items.href ? 'bg-blue-600' : ''} `}>
+                    <div className={`group flex items-center gap-1.5 p-1.5 rounded-sm hover:bg-slate-800 active:bg-blue-600 transition-colors cursor-pointer relative ${params === items.href ? 'bg-blue-600' : ''} `}>
                         <items.icon size={15} />
-                        <p className="text-sm md:block hidden lg:block">{items.label}</p>
+                        <p className={`text-sm ${isMobile ? 'block' : 'hidden xl:block'}`}>{items.label}</p>
+                        {/* Tooltip for tablet view */}
+                        {!isMobile && (
+                            <div className="absolute left-full ml-2 px-2 py-1 bg-slate-800 text-white text-sm rounded opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 whitespace-nowrap z-50 xl:hidden">
+                                {items.label}
+                            </div>
+                        )}
                     </div>
                 </Link>
             ))}
             <div className="border-t border-slate-700 my-4"></div>
             {userSettingsNavItems.map(items => (
                 <Link href={items.href} key={items.href}>
-                    <div className={`flex items-center gap-1.5 p-1.5 rounded-sm hover:bg-slate-800 active:bg-blue-600 transition-colors cursor-pointer ${params === items.href ? 'bg-blue-600' : ''} `}>
+                    <div className={`group flex items-center gap-1.5 p-1.5 rounded-sm hover:bg-slate-800 active:bg-blue-600 transition-colors cursor-pointer relative ${params === items.href ? 'bg-blue-600' : ''} `}>
                         <items.icon size={15} />
-                        <p className="text-sm md:block hidden lg:block">{items.label}</p>
+                        <p className={`text-sm ${isMobile ? 'block' : 'hidden xl:block'}`}>{items.label}</p>
                         {items.badge && (
-                            <span className="ml-auto bg-red-500 text-white text-xs rounded-full px-1.5 py-0.5 md:block hidden lg:block">
+                            <span className={`ml-auto bg-red-500 text-white text-xs rounded-full px-1.5 py-0.5 ${isMobile ? 'block' : 'hidden xl:block'}`}>
                                 {items.badge}
                             </span>
+                        )}
+                        {/* Tooltip for tablet view */}
+                        {!isMobile && (
+                            <div className="absolute left-full ml-2 px-2 py-1 bg-slate-800 text-white text-sm rounded opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 whitespace-nowrap z-50 xl:hidden">
+                                {items.label}
+                                {items.badge && ` (${items.badge})`}
+                            </div>
                         )}
                     </div>
                 </Link>
             ))}
             <div className="mt-auto p-1 bottom-0">
                 {bottonNav.map(items => (
-                    <div onClick={items.onClick} key={items.label} className={`flex items-center gap-1.5 p-1.5 rounded-sm hover:bg-slate-800 active:bg-blue-600 transition-colors cursor-pointer `}>
+                    <div onClick={items.onClick} key={items.label} className={`group flex items-center gap-1.5 p-1.5 rounded-sm hover:bg-slate-800 active:bg-blue-600 transition-colors cursor-pointer relative `}>
                         <items.icon size={15} />
-                        <p className="text-sm md:block hidden lg:block">{items.label}</p>
+                        <p className={`text-sm ${isMobile ? 'block' : 'hidden xl:block'}`}>{items.label}</p>
+                        {/* Tooltip for tablet view */}
+                        {!isMobile && (
+                            <div className="absolute left-full ml-2 px-2 py-1 bg-slate-800 text-white text-sm rounded opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 whitespace-nowrap z-50 xl:hidden">
+                                {items.label}
+                            </div>
+                        )}
                     </div>
                 ))}
             </div>
@@ -96,9 +115,9 @@ const Sidebar = () => {
             )}
 
             {/* Desktop/Tablet Sidebar */}
-            <div className="hidden md:block fixed left-0 top-0 w-16 lg:w-[12%] h-screen bg-slate-900 text-white flex-col gap-1.5 p-2 z-30">
+            <div className="hidden md:block fixed left-0 top-0 w-16 xl:w-[12%] h-screen bg-slate-900 text-white flex-col gap-1.5 p-2 z-30">
                 <div className="flex flex-col gap-1.5 h-full">
-                    <SidebarContent />
+                    <SidebarContent isMobile={false} />
                 </div>
             </div>
 
@@ -112,7 +131,7 @@ const Sidebar = () => {
                 >
                     <X size={20} />
                 </button>
-                <SidebarContent />
+                <SidebarContent isMobile={true} />
             </div>
         </>
     )

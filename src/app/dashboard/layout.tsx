@@ -15,7 +15,7 @@ export default function DashboardLayout({
         // Update your dashboard layout
         <div className="max-w-screen min-h-screen bg-white">
             <Sidebar />
-            <div className="md:ml-16 lg:ml-[12%] overflow-y-auto min-h-screen pt-16 md:pt-0">
+            <div className="md:ml-16 xl:ml-[12%] overflow-y-auto min-h-screen pt-16 md:pt-0">
                 {children}
             </div>
         </div>
