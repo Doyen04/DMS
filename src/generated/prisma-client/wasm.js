@@ -121,11 +121,6 @@ exports.Prisma.QueryMode = {
   insensitive: 'insensitive'
 };
 
-exports.Prisma.NullsOrder = {
-  first: 'first',
-  last: 'last'
-};
-
 
 exports.Prisma.ModelName = {
   User: 'User',
@@ -181,8 +176,8 @@ const config = {
       }
     }
   },
-  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\n// Define custom output path for generated Prisma Client\n//used previewFeatures to solve edge function errors\ngenerator client {\n  provider        = \"prisma-client-js\"\n  previewFeatures = [\"driverAdapters\"]\n  output          = \"../src/generated/prisma-client\"\n}\n\n// Define database connection via the `DATABASE_URL` env var\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\n// Example data model\nmodel User {\n  id        String   @id @default(cuid())\n  createdAt DateTime @default(now())\n  email     String   @unique\n  fullname  String?\n  password  String\n  files     File[] // Add this relation field\n}\n\nmodel File {\n  id        String   @id @default(cuid())\n  name      String\n  size      Int\n  type      String\n  url       String\n  userId    String\n  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n}\n",
-  "inlineSchemaHash": "8bd20b115e9d817f6357ebe64d7536468a7b98a0ca2c390170b39120ab22d18c",
+  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\n// Define custom output path for generated Prisma Client\n//used previewFeatures to solve edge function errors\ngenerator client {\n  provider        = \"prisma-client-js\"\n  previewFeatures = [\"driverAdapters\"]\n  output          = \"../src/generated/prisma-client\"\n}\n\n// Define database connection via the `DATABASE_URL` env var\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\n// Example data model\nmodel User {\n  id        String   @id @default(cuid())\n  createdAt DateTime @default(now())\n  email     String   @unique\n  fullname  String\n  password  String\n  files     File[] // Add this relation field\n}\n\nmodel File {\n  id        String   @id @default(cuid())\n  name      String\n  size      Int\n  type      String\n  url       String\n  userId    String\n  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n}\n",
+  "inlineSchemaHash": "f55c0cfc8e0dd1c0df4c5f8803020e8c8ac44f3f26afec10b55458962c89634d",
   "copyEngine": false
 }
 config.dirname = '/'

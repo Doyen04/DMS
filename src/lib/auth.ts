@@ -33,7 +33,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
 
                 // return user object with their profile data
-                return { id: user.id, fullname: user.fullname || "", email: user.email }
+                return { id: user.id, fullname: user.fullname , email: user.email }
             },
 
         }),

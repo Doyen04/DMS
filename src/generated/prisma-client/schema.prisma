@@ -23,7 +23,7 @@ model User {
   id        String   @id @default(cuid())
   createdAt DateTime @default(now())
   email     String   @unique
-  fullname  String?
+  fullname  String
   password  String
   files     File[] // Add this relation field
 }
