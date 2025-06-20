@@ -114,35 +114,42 @@ export default function DashboardPage() {
 
     return (
         <section className="flex flex-col gap-7.5">
-
+    
             <BreadCrumb text="Overview" />
-
+    
             <div className="px-8 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
                 {overviewData.map((data) => (
                     <OverviewCard key={data.title} {...data} />
                 ))}
             </div>
-            <div className="px-8 w-full flex gap-7.5">
-                <div className="rounded-lg border border-gray-300 w-[70%]">
-                    <h1 className="p-6 pt-4 text-2xl font-semibold leading-none tracking-tight">
+            
+            {/* Responsive Recent Activity and Quick Action */}
+            <div className="px-8 w-full flex flex-col lg:flex-row gap-6 lg:gap-7.5">
+                <div className="rounded-lg border border-gray-300 w-full lg:w-[70%]">
+                    <h1 className="p-4 lg:p-6 pt-4 text-xl lg:text-2xl font-semibold leading-none tracking-tight">
                         Recent Activity
                     </h1>
-                    <div className="p-6 pt-0 flex flex-col gap-2">
+                    <div className="p-4 lg:p-6 pt-0 flex flex-col gap-2">
                         No Activity...
                     </div>
                 </div>
-                <div className="rounded-lg border border-gray-300 w-[30%]">
-                    <h1 className="p-6 pt-4 text-2xl font-semibold leading-none tracking-tight">
+                <div className="rounded-lg border border-gray-300 w-full lg:w-[30%]">
+                    <h1 className="p-4 lg:p-6 pt-4 text-xl lg:text-2xl font-semibold leading-none tracking-tight">
                         Quick Action
                     </h1>
-                    <div className="p-6 pt-0 flex flex-col gap-2">
+                    <div className="p-4 lg:p-6 pt-0 flex flex-col gap-2">
                         {quickActions.map(items => (
-                            <Link className={twMerge(`flex items-center p-3 rounded-lg border border-gray-300 
-                            focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 ${items.bg}`)} key={items.label} href={items.href}>
-                                <button className="flex items-center gap-2 ">
-                                    <items.icon />
-                                    <p>{items.label}</p>
-                                </button>
+                            <Link 
+                                className={twMerge(`flex items-center p-3 rounded-lg border border-gray-300 
+                                hover:bg-gray-50 transition-colors duration-200
+                                focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 ${items.bg}`)} 
+                                key={items.label} 
+                                href={items.href}
+                            >
+                                <div className="flex items-center gap-2 w-full">
+                                    <items.icon size={18} />
+                                    <p className="text-sm lg:text-base">{items.label}</p>
+                                </div>
                             </Link>
                         ))}
                     </div>
