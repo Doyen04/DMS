@@ -105,7 +105,7 @@ export const updateFilter = (activeFilters: ActiveFilters, filterType: string, v
 };
 
 export const handleFilterChange = (
-    activeFilters: any,
+    activeFilters: ActiveFilters,
     filterType: string,
     value: string
 ) => {
