@@ -1,17 +1,28 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Camera, Edit3, Mail, Save, UserCircle, X } from 'lucide-react'
+import { useUserAuth } from '@/hooks/useUserAuth'
 
 const ProfilePage = () => {
+    const { session, isAuthenticated } = useUserAuth()
     const [isEditing, setIsEditing] = useState(false)
     const [formData, setFormData] = useState({
-        fullname: 'John Doe',
-        email: 'john.doe@example.com',
-        bio: 'Software Developer passionate about building efficient document management systems.',
-        location: 'New York, USA',
-        phone: '+1 (555) 123-4567'
+        fullname: '',
+        email: '',
+        bio: 'Software Developer passionate about building efficient document management systems.'
     })
+
+    // Load user data from session when component mounts
+    useEffect(() => {
+        if (session?.user) {
+            setFormData({
+                fullname: session.user.name || '',
+                email: session.user.email || '',
+                bio: 'Software Developer passionate about building efficient document management systems.'
+            })
+        }
+    }, [session])
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setFormData({
@@ -20,21 +31,42 @@ const ProfilePage = () => {
         })
     }
 
-    const handleSave = () => {
-        // Handle save logic here
-        setIsEditing(false)
+    const handleSave = async () => {
+        // Handle save logic here - you can add API call to update user data
+        try {
+            // Add your API call here to update user profile
+            console.log('Saving user data:', formData)
+            setIsEditing(false)
+        } catch (error) {
+            console.error('Error saving profile:', error)
+        }
     }
 
     const handleCancel = () => {
-        // Reset form data or fetch from server
+        // Reset form data to original session data
+        if (session?.user) {
+            setFormData({
+                fullname: session.user.name || '',
+                email: session.user.email || '',
+                bio: 'Software Developer passionate about building efficient document management systems.'
+            })
+        }
         setIsEditing(false)
+    }
+
+    if (!isAuthenticated || !session) {
+        return (
+            <div className="min-h-screen bg-slate-50 p-6 flex items-center justify-center">
+                <div className="text-slate-600">Please log in to view your profile.</div>
+            </div>
+        )
     }
 
     return (
         <div className="min-h-screen bg-slate-50 p-6">
             <div className="max-w-4xl mx-auto">
                 {/* Header */}
-                <div className="bg-white rounded-lg shadow-sm border border-slate-200 overflow-hidden">
+                <div className="bg-white rounded-sm shadow-sm border border-slate-200 overflow-hidden">
                     <div className="bg-slate-900 h-32 relative">
                         <div className="absolute -bottom-16 left-8">
                             <div className="relative">
@@ -50,25 +82,25 @@ const ProfilePage = () => {
                             {!isEditing ? (
                                 <button
                                     onClick={() => setIsEditing(true)}
-                                    className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-sm hover:bg-blue-700 transition-colors"
+                                    className="flex items-center gap-1.5 bg-blue-600 text-white px-4 py-2 rounded-sm hover:bg-blue-700 transition-colors"
                                 >
-                                    <Edit3 size={16} />
+                                    <Edit3 size={15} />
                                     <span className="text-sm">Edit Profile</span>
                                 </button>
                             ) : (
                                 <div className="flex gap-2">
                                     <button
                                         onClick={handleSave}
-                                        className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-sm hover:bg-blue-700 transition-colors"
+                                        className="flex items-center gap-1.5 bg-blue-600 text-white px-4 py-2 rounded-sm hover:bg-blue-700 transition-colors"
                                     >
-                                        <Save size={16} />
+                                        <Save size={15} />
                                         <span className="text-sm">Save</span>
                                     </button>
                                     <button
                                         onClick={handleCancel}
-                                        className="flex items-center gap-2 bg-slate-600 text-white px-4 py-2 rounded-sm hover:bg-slate-700 transition-colors"
+                                        className="flex items-center gap-1.5 bg-slate-600 text-white px-4 py-2 rounded-sm hover:bg-slate-700 transition-colors"
                                     >
-                                        <X size={16} />
+                                        <X size={15} />
                                         <span className="text-sm">Cancel</span>
                                     </button>
                                 </div>
@@ -88,10 +120,10 @@ const ProfilePage = () => {
                                         className="text-2xl font-bold text-slate-900 bg-slate-50 border border-slate-300 rounded-sm px-3 py-1 focus:outline-none focus:ring-2 focus:ring-blue-600"
                                     />
                                 ) : (
-                                    <h1 className="text-2xl font-bold text-slate-900">{formData.fullname}</h1>
+                                    <h1 className="text-2xl font-bold text-slate-900">{formData.fullname || 'No name provided'}</h1>
                                 )}
-                                <div className="flex items-center gap-2 mt-1">
-                                    <Mail size={16} className="text-slate-500" />
+                                <div className="flex items-center gap-1.5 mt-1">
+                                    <Mail size={15} className="text-slate-500" />
                                     {isEditing ? (
                                         <input
                                             type="email"
@@ -113,7 +145,7 @@ const ProfilePage = () => {
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-6">
                     {/* Personal Information */}
                     <div className="lg:col-span-2">
-                        <div className="bg-white rounded-lg shadow-sm border border-slate-200 p-6">
+                        <div className="bg-white rounded-sm shadow-sm border border-slate-200 p-6">
                             <h2 className="text-lg font-semibold text-slate-900 mb-4">Personal Information</h2>
 
                             <div className="space-y-4">
@@ -128,7 +160,7 @@ const ProfilePage = () => {
                                             className="w-full px-3 py-2 border border-slate-300 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-600"
                                         />
                                     ) : (
-                                        <p className="text-slate-900">{formData.fullname}</p>
+                                        <p className="text-slate-900">{formData.fullname || 'No name provided'}</p>
                                     )}
                                 </div>
 
@@ -144,36 +176,6 @@ const ProfilePage = () => {
                                         />
                                     ) : (
                                         <p className="text-slate-900">{formData.email}</p>
-                                    )}
-                                </div>
-
-                                <div>
-                                    <label className="block text-sm font-medium text-slate-700 mb-1">Phone Number</label>
-                                    {isEditing ? (
-                                        <input
-                                            type="tel"
-                                            name="phone"
-                                            value={formData.phone}
-                                            onChange={handleInputChange}
-                                            className="w-full px-3 py-2 border border-slate-300 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-600"
-                                        />
-                                    ) : (
-                                        <p className="text-slate-900">{formData.phone}</p>
-                                    )}
-                                </div>
-
-                                <div>
-                                    <label className="block text-sm font-medium text-slate-700 mb-1">Location</label>
-                                    {isEditing ? (
-                                        <input
-                                            type="text"
-                                            name="location"
-                                            value={formData.location}
-                                            onChange={handleInputChange}
-                                            className="w-full px-3 py-2 border border-slate-300 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-600"
-                                        />
-                                    ) : (
-                                        <p className="text-slate-900">{formData.location}</p>
                                     )}
                                 </div>
 
@@ -197,7 +199,7 @@ const ProfilePage = () => {
 
                     {/* Account Statistics */}
                     <div className="space-y-6">
-                        <div className="bg-white rounded-lg shadow-sm border border-slate-200 p-6">
+                        <div className="bg-white rounded-sm shadow-sm border border-slate-200 p-6">
                             <h3 className="text-lg font-semibold text-slate-900 mb-4">Account Statistics</h3>
                             <div className="space-y-4">
                                 <div className="flex justify-between items-center">
@@ -219,20 +221,20 @@ const ProfilePage = () => {
                             </div>
                         </div>
 
-                        <div className="bg-white rounded-lg shadow-sm border border-slate-200 p-6">
+                        <div className="bg-white rounded-sm shadow-sm border border-slate-200 p-6">
                             <h3 className="text-lg font-semibold text-slate-900 mb-4">Account Status</h3>
                             <div className="space-y-3">
-                                <div className="flex items-center gap-2">
+                                <div className="flex items-center gap-1.5">
                                     <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                                    <span className="text-slate-600">Account Active</span>
+                                    <span className="text-slate-600 text-sm">Account Active</span>
                                 </div>
-                                <div className="flex items-center gap-2">
+                                <div className="flex items-center gap-1.5">
                                     <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
-                                    <span className="text-slate-600">Premium Plan</span>
+                                    <span className="text-slate-600 text-sm">Premium Plan</span>
                                 </div>
-                                <div className="flex items-center gap-2">
+                                <div className="flex items-center gap-1.5">
                                     <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                                    <span className="text-slate-600">Email Verified</span>
+                                    <span className="text-slate-600 text-sm">Email Verified</span>
                                 </div>
                             </div>
                         </div>
