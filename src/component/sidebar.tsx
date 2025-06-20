@@ -42,7 +42,10 @@ const Sidebar = () => {
     const SidebarContent = ({ isMobile = false }) => (
         <>
             <div className="bg-white rounded-sm mt-2.5 mb-4 p-2.5">
-                <Logo mobile={!isMobile}/>
+                <Logo mobile={!isMobile} />
+                {!isMobile && (
+                    <p className="text-sm text-slate-500 mt-1">DMS</p>
+                )}
             </div>
             {mainNavItems.map(items => (
                 <Link href={items.href} key={items.href}>
@@ -105,26 +108,23 @@ const Sidebar = () => {
             >
                 <Menu size={20} />
             </button>
-    
             {/* Mobile Overlay - Made transparent */}
-            {isMobileMenuOpen && (
-                <div 
-                    className="fixed inset-0 bg-transparent z-40 md:hidden"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                />
+            {isMobileMenuOpen && (<div
+                className="fixed inset-0 bg-transparent z-40 md:hidden"
+                onClick={() => setIsMobileMenuOpen(false)}
+            />
             )}
-    
+
             {/* Desktop/Tablet Sidebar */}
             <div className="hidden md:block fixed left-0 top-0 w-16 xl:w-[12%] h-screen bg-slate-900 text-white flex-col gap-1.5 p-2 z-30">
                 <div className="flex flex-col gap-1.5 h-full">
                     <SidebarContent isMobile={false} />
                 </div>
             </div>
-    
+
             {/* Mobile Sidebar */}
-            <div className={`fixed left-0 top-0 w-64 h-screen bg-slate-900 text-white flex flex-col gap-1.5 p-2 z-50 transform transition-transform duration-300 ease-in-out md:hidden ${
-                isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'
-            }`}>
+            <div className={`fixed left-0 top-0 w-64 h-screen bg-slate-900 text-white flex flex-col gap-1.5 p-2 z-50 transform transition-transform duration-300 ease-in-out md:hidden ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'
+                }`}>
                 <button
                     onClick={() => setIsMobileMenuOpen(false)}
                     className="absolute top-4 right-4 p-1 hover:bg-slate-800 rounded"
