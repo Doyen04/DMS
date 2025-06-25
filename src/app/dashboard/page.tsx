@@ -46,11 +46,11 @@ export default function DashboardPage() {
             style: "bg-blue-50 border-blue-200"
         },
         {
-            title: "Shared With Me",
+            title: "Shared Files",
             value: "32",
             icon: Users,
             description: "Files and folders shared by others.",
-            link: "/dashboard/shared-with-me",
+            link: "/dashboard/shared-files",
             linkText: "View Shared",
             style: "bg-orange-50 border-orange-200"
         },
@@ -108,7 +108,7 @@ export default function DashboardPage() {
     const quickActions = [
         { label: "Upload New File", icon: UploadCloud, variant: "default" as const, href: "/dashboard/upload", bg:'bg-blue-700 text-white border-blue-200' },
         { label: "Create New Folder", icon: FolderPlus, variant: "outline" as const, href: "/dashboard/create-folder" },
-        { label: "Share a File", icon: Share2, variant: "outline" as const, href: "/dashboard/share" },
+        { label: "Share a File", icon: Share2, variant: "outline" as const, href: "/dashboard/shared-files" },
         { label: "View Favorites", icon: Star, variant: "outline" as const, href: "/dashboard/favorites" },
     ]
 

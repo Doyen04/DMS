@@ -9,7 +9,7 @@ import React, { useEffect, useState } from "react";
 const mainNavItems = [
     { href: "/dashboard", label: "My Dashboard", icon: Home },
     { href: "/dashboard/my-files", label: "My Files", icon: FileText },
-    { href: "/dashboard/shared-with-me", label: "Shared With Me", icon: Users },
+    { href: "/dashboard/shared-files", label: "Shared Files", icon: Users },
     { href: "/dashboard/my-uploads", label: "My Uploads", icon: FolderUp },
     { href: "/dashboard/favorites", label: "Favorites", icon: Star },
 ]
