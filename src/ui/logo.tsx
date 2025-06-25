@@ -5,10 +5,9 @@ import React from "react";
 
 interface LogoProps {
     mobile?: boolean;
-    tablet?: boolean;
 }
 
-const Logo: React.FC<LogoProps> = ({ mobile, tablet }) => {
+const Logo: React.FC<LogoProps> = ({ mobile}) => {
     return (
         <div className="flex items-center">
             <Link href={'/'} className="group flex items-center space-x-2">
@@ -20,7 +19,7 @@ const Logo: React.FC<LogoProps> = ({ mobile, tablet }) => {
                     </div>
                     <div className="absolute -top-1 -right-1 w-3 h-3 bg-green-400 rounded-full border-2 border-white animate-pulse"></div>
                 </div>
-                {!mobile && !tablet && (
+                {!mobile &&(
                     <span className="text-xl font-bold bg-gradient-to-r from-slate-800 to-slate-600 bg-clip-text text-transparent group-hover:from-blue-600 group-hover:to-indigo-600 transition-all duration-300">
                         DMS
                     </span>
