@@ -7,7 +7,7 @@ import { useSession } from "next-auth/react";
 import Logo from "@/ui/logo";
 
 const Header: React.FC = () => {
-    const {data: session} = useSession()
+    const { data: session } = useSession()
     const [isScrolled, setIsScrolled] = useState(false)
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
     const {
@@ -42,16 +42,19 @@ const Header: React.FC = () => {
     }
 
     return (
-        <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-            isScrolled 
-                ? 'bg-white/80 backdrop-blur-lg shadow-lg border-b border-slate-200/50' 
-                : 'bg-white/60 backdrop-blur-sm'
-        }`}>
+        <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled
+            ? 'bg-white/80 backdrop-blur-lg shadow-lg border-b border-slate-200/50'
+            : 'bg-white/60 backdrop-blur-sm'
+            }`}>
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex items-center justify-between h-16">
                     {/* Logo */}
-                    <Logo />
-
+                    <div className="group flex items-center gap-2 mt-2.5 mb-4 p-2.5">
+                        <Logo />
+                        <span className="text-xl font-bold bg-gradient-to-r from-slate-800 to-slate-600 bg-clip-text text-transparent group-hover:from-blue-600 group-hover:to-indigo-600 transition-all duration-300">
+                            DMS
+                        </span>
+                    </div>
                     {/* Desktop Navigation */}
                     <nav className="hidden md:flex items-center space-x-1">
                         {isAuthenticated ? (
@@ -71,10 +74,10 @@ const Header: React.FC = () => {
                                         </div>
                                     </div>
                                 </div>
-                                
+
                                 {/* Dashboard Button */}
-                                <Link 
-                                    href="/dashboard" 
+                                <Link
+                                    href="/dashboard"
                                     className="group relative px-4 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-medium rounded-lg shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-300"
                                 >
                                     <span className="relative z-10 flex items-center space-x-2">
@@ -86,7 +89,7 @@ const Header: React.FC = () => {
                                     </span>
                                     <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-blue-700 to-indigo-700 opacity-0 group-hover:opacity-100 transition-opacity"></div>
                                 </Link>
-                                
+
                                 {/* Sign Out Button */}
                                 <button
                                     onClick={handleSignOut}
@@ -103,7 +106,7 @@ const Header: React.FC = () => {
                         ) : (
                             <>
                                 {/* Get Started Button */}
-                                <Link 
+                                <Link
                                     href="/signup"
                                     className="group relative px-6 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-300"
                                 >
@@ -115,9 +118,9 @@ const Header: React.FC = () => {
                                     </span>
                                     <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-blue-700 to-indigo-700 opacity-0 group-hover:opacity-100 transition-opacity"></div>
                                 </Link>
-                                
+
                                 {/* Sign In Button */}
-                                <Link 
+                                <Link
                                     href="/signin"
                                     className="px-4 py-2 border-2 border-slate-200 text-slate-700 font-medium rounded-lg hover:border-blue-300 hover:text-blue-600 hover:bg-blue-50 transition-all duration-300 backdrop-blur-sm"
                                 >
@@ -140,11 +143,10 @@ const Header: React.FC = () => {
             </div>
 
             {/* Mobile Menu */}
-            <div className={`md:hidden transition-all duration-300 ${
-                isMobileMenuOpen 
-                    ? 'max-h-screen opacity-100' 
-                    : 'max-h-0 opacity-0 overflow-hidden'
-            }`}>
+            <div className={`md:hidden transition-all duration-300 ${isMobileMenuOpen
+                ? 'max-h-screen opacity-100'
+                : 'max-h-0 opacity-0 overflow-hidden'
+                }`}>
                 <div className="px-4 py-4 bg-white/95 backdrop-blur-lg border-t border-slate-200/50">
                     {isAuthenticated ? (
                         <div className="space-y-3">
@@ -164,15 +166,15 @@ const Header: React.FC = () => {
                                     </div>
                                 </div>
                             </div>
-                            
-                            <Link 
-                                href="/dashboard" 
+
+                            <Link
+                                href="/dashboard"
                                 className="block w-full px-4 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-lg text-center"
                                 onClick={() => setIsMobileMenuOpen(false)}
                             >
                                 Dashboard
                             </Link>
-                            
+
                             <button
                                 onClick={() => {
                                     handleSignOut()
@@ -185,15 +187,15 @@ const Header: React.FC = () => {
                         </div>
                     ) : (
                         <div className="space-y-3">
-                            <Link 
+                            <Link
                                 href="/signup"
                                 className="block w-full px-4 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-lg text-center"
                                 onClick={() => setIsMobileMenuOpen(false)}
                             >
                                 Get Started
                             </Link>
-                            
-                            <Link 
+
+                            <Link
                                 href="/signin"
                                 className="block w-full px-4 py-3 border-2 border-slate-200 text-slate-700 font-medium rounded-lg text-center hover:border-blue-300 hover:text-blue-600 transition-colors"
                                 onClick={() => setIsMobileMenuOpen(false)}

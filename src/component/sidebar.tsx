@@ -41,14 +41,11 @@ const Sidebar = () => {
 
     const SidebarContent = ({ isMobile = false }) => (
         <>
-            <div className="group flex bg-white rounded-sm mt-2.5 mb-4 p-2.5">
-                <Logo mobile={isMobile} />
-               
-                {!isMobile && (
-                    <div className="absolute left-full ml-2 px-2 py-1 bg-slate-800 text-white text-sm rounded opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 whitespace-nowrap z-50 xl:hidden">
-                        DMS
-                    </div>
-                )}
+            <div className="group flex items-center gap-2 bg-white rounded-sm mt-2.5 mb-4 p-2.5">
+                <Logo />
+                <span className="text-xl font-bold bg-gradient-to-r from-slate-800 to-slate-600 bg-clip-text text-transparent group-hover:from-blue-600 group-hover:to-indigo-600 transition-all duration-300">
+                    DMS
+                </span>
             </div>
             {mainNavItems.map(items => (
                 <Link href={items.href} key={items.href}>
