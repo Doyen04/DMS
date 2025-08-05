@@ -11,6 +11,10 @@ interface SendResetEmailResult {
     success: boolean;
 }
 
+interface ResendErrorResponse {
+    statusCode: number;
+    error: string;
+}
 
 export async function sendResetEmail(user: User | null): Promise<SendResetEmailResult> {
     if (!process.env.RESEND_API_KEY) {
@@ -39,7 +43,7 @@ export async function sendResetEmail(user: User | null): Promise<SendResetEmailR
         });
         console.log(data, 'data->error', error, 'result of send', error?.message);
         return {
-            error: error ? ((error as any).error || error.message || 'Unknown email error') : null,
+            error: error ? ((error as unknown as ResendErrorResponse).error || error.message || 'Unknown email error') : null,
             data: data,
             success: error ? false : true
         };
