@@ -178,7 +178,7 @@ const ProfilePage = () => {
                 {/* Header Section */}
                 <div className="bg-white rounded-3xl shadow-xl overflow-hidden">
                     {/* Cover Photo */}
-                    <div className="h-45 bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 relative">
+                    <div className="h-42 bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 relative">
                         <div className="absolute inset-0 bg-black/20"></div>
                         <div className="absolute top-6 right-6">
                             {!isEditing ? (
