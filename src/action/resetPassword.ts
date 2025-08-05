@@ -7,7 +7,7 @@ import emailSchema from "@/zodSchema/emailSchema";
 
 
 
-const handleResetPassword = async (prevState: ResetState, formData: FormData): Promise<ResetState>  => {
+const handleResetPassword = async (prevState: ResetState, formData: FormData): Promise<ResetState> => {
 
     const email = formData.get("email") as string
 
@@ -19,7 +19,7 @@ const handleResetPassword = async (prevState: ResetState, formData: FormData): P
                 email: email
             }
         })
-
+    console.log(user);
     if (!validation.success) {
         const result = validation.error.flatten().fieldErrors;
         return {
@@ -35,10 +35,10 @@ const handleResetPassword = async (prevState: ResetState, formData: FormData): P
     try {
         const result = await sendResetEmail(user)
         console.log(result);
-        
+
         if (result.error) {
             return {
-                error: {  },
+                error: {},
                 values: { email: email },
                 submitted: true,
                 success: false, // Set this to true
