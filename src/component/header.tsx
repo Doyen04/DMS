@@ -3,11 +3,11 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import useUserAuth from "@/hooks/useUserAuth";
 import SignOut from "@/action/signout";
-import { useSession } from "next-auth/react";
 import Logo from "@/ui/logo";
+import { getSession } from "@/action/getSession";
 
-const Header: React.FC = () => {
-    const { data: session } = useSession()
+const Header: React.FC = async () => {
+    const session = await getSession()
     const [isScrolled, setIsScrolled] = useState(false)
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
     const {
