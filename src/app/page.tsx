@@ -4,11 +4,11 @@ import Footer from "@/component/footer";
 import Link from "next/link";
 import Image from "next/image";
 import Header from "@/component/header";
-import useUserAuth from "@/hooks/useUserAuth";
 import SignOut from "@/action/signout";
+import { useUser } from "@/hooks/useUser";
 
 export default function Home() {
-    const { isAuthenticated, logout } = useUserAuth()
+    const { isAuthenticated, logout } = useUser()
 
     const handleSignOut = async () => {
         logout()

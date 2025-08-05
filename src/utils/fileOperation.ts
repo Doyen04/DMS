@@ -1,4 +1,5 @@
 import { deleteUserFile as deleteUserFileAction } from "@/action/deleteUserFile";
+import { getRecentUserFiles } from "@/action/getAllRecentFiles";
 import { getUserFiles as getUserFilesAction } from "@/action/getAllUserFiles";
 import { toast } from "react-toastify";
 
@@ -11,6 +12,22 @@ export interface FileData {
     contentType: string;
     userId: string;
 }
+
+export const fetchRecentFiles = async (): Promise<FileData[] | null> => {
+    try {
+        const result = await getRecentUserFiles();
+        if (result.success) {
+            return result.files || [];
+        } else {
+            toast.error('Failed to fetch files: ' + result.error);
+            return null;
+        }
+    } catch (error) {
+        console.error('Error fetching files:', error);
+        toast.error('Error fetching files');
+        return null;
+    }
+};
 
 export const fetchFiles = async (): Promise<FileData[] | null> => {
     try {
