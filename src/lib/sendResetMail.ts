@@ -27,17 +27,17 @@ export async function sendResetEmail(user: User | null): Promise<SendResetEmailR
             success: false
         };
     }
-    if(user){
+    if (user) {
         const resetUrl: string = await createResetLink(user.email, user.id);
         console.log(resetUrl, 'rest url in sendresetmail');
-        
+
         const { data, error } = await resend.emails.send({
             from: `DMS Support <${process.env.EMAIL_FROM}>`,
             to: [user.email],
             subject: 'Password Reset Request',
             react: await ResetEmailTemplate({ firstName: user.fullname as string, resetUrl: resetUrl }),
         });
-    
+          console.log(data, error, 'result of send');
         return {
             error: error ? error.message : null,
             data: data,
@@ -45,8 +45,8 @@ export async function sendResetEmail(user: User | null): Promise<SendResetEmailR
         };
     }
     return {
-            error: "User not Found",
-            data: null,
-            success: false
-        };
+        error: "User not Found",
+        data: null,
+        success: false
+    };
 }
