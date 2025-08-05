@@ -5,10 +5,10 @@ import HeaderProvider from "@/providers/HeaderProvider";
 import Link from "next/link";
 import Image from "next/image";
 import useUserAuth from "@/hooks/useUserAuth";
-import SignOut from "@/action/signout";
+// import SignOut from "@/action/signout";
 
 export default function Home() {
-   const {isAuthenticated, logout} = useUserAuth()
+   const {isAuthenticated} = useUserAuth()
 
     // const handleSignOut = async () => {
     //     logout()
