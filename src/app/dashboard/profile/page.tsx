@@ -23,11 +23,14 @@ import {
     Activity
 } from 'lucide-react'
 import { useUser } from '@/hooks/useUser'
+import { fetchRecentFiles, FileData } from '@/utils/fileOperation'
 
 const ProfilePage = () => {
     const { session, isAuthenticated } = useUser()
     const [isEditing, setIsEditing] = useState(false)
     const [activeTab, setActiveTab] = useState('overview')
+    const [recentFiles, setRecentFiles] = useState<FileData[]>([])
+    const [isLoadingFiles, setIsLoadingFiles] = useState(false)
     const [formData, setFormData] = useState({
         fullname: '',
         email: '',
@@ -48,6 +51,27 @@ const ProfilePage = () => {
             }))
         }
     }, [session])
+
+    // Load recent files when component mounts
+    useEffect(() => {
+        const loadRecentFiles = async () => {
+            setIsLoadingFiles(true)
+            try {
+                const files = await fetchRecentFiles()
+                if (files) {
+                    setRecentFiles(files)
+                }
+            } catch (error) {
+                console.error('Error loading recent files:', error)
+            } finally {
+                setIsLoadingFiles(false)
+            }
+        }
+
+        if (isAuthenticated) {
+            loadRecentFiles()
+        }
+    }, [isAuthenticated])
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setFormData({
@@ -78,19 +102,61 @@ const ProfilePage = () => {
         setIsEditing(false)
     }
 
+    // Helper functions for file display
+    const getFileIcon = (contentType: string) => {
+        if (contentType.includes('image')) return '🖼️'
+        if (contentType.includes('pdf')) return '📄'
+        if (contentType.includes('video')) return '🎥'
+        if (contentType.includes('audio')) return '🎵'
+        if (contentType.includes('text')) return '📝'
+        if (contentType.includes('document')) return '📋'
+        if (contentType.includes('spreadsheet')) return '📊'
+        return '📁'
+    }
+
+    const formatTimeAgo = (dateString: string) => {
+        const now = new Date()
+        const uploaded = new Date(dateString)
+        const diffInHours = Math.floor((now.getTime() - uploaded.getTime()) / (1000 * 60 * 60))
+        const diffInMinutes = Math.floor((now.getTime() - uploaded.getTime()) / (1000 * 60))
+        
+        if (diffInMinutes < 60) {
+            return `${diffInMinutes}m ago`
+        } else if (diffInHours < 24) {
+            return `${diffInHours}h ago`
+        } else {
+            return uploaded.toLocaleDateString()
+        }
+    }
+
+    const formatFileSize = (bytes: number) => {
+        if (bytes === 0) return '0 Bytes'
+        const k = 1024
+        const sizes = ['Bytes', 'KB', 'MB', 'GB']
+        const i = Math.floor(Math.log(bytes) / Math.log(k))
+        return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i]
+    }
+
     const stats = [
         { label: 'Total Files', value: '2,847', icon: FileText, color: 'text-blue-600 bg-blue-50', change: '+12%' },
         { label: 'Storage Used', value: '4.2 GB', icon: HardDrive, color: 'text-purple-600 bg-purple-50', change: '2.1 GB left' },
         { label: 'Shared Files', value: '156', icon: Share2, color: 'text-green-600 bg-green-50', change: '+8%' },
-        { label: 'Favorites', value: '89', icon: Heart, color: 'text-pink-600 bg-pink-50', change: '+3' }
+        { label: 'Recent Files', value: recentFiles.length.toString(), icon: Heart, color: 'text-pink-600 bg-pink-50', change: 'Last 24h' }
     ]
 
-    const activities = [
-        { action: 'Uploaded', file: 'quarterly-report.pdf', time: '2 hours ago', type: 'upload' },
-        { action: 'Shared', file: 'project-assets.zip', time: '5 hours ago', type: 'share' },
-        { action: 'Downloaded', file: 'invoice-template.docx', time: '1 day ago', type: 'download' },
-        { action: 'Created', file: 'team-meeting-folder', time: '2 days ago', type: 'create' }
-    ]
+    const refreshRecentFiles = async () => {
+        setIsLoadingFiles(true)
+        try {
+            const files = await fetchRecentFiles()
+            if (files) {
+                setRecentFiles(files)
+            }
+        } catch (error) {
+            console.error('Error refreshing files:', error)
+        } finally {
+            setIsLoadingFiles(false)
+        }
+    }
 
     if (!isAuthenticated || !session) {
         return (
@@ -215,7 +281,7 @@ const ProfilePage = () => {
 
                 {/* Stats Cards */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                    {stats.map((stat) => (
+                    {stats.map((stat, index) => (
                         <div key={stat.label} className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-slate-100">
                             <div className="flex items-center justify-between mb-4">
                                 <div className={`w-12 h-12 rounded-xl ${stat.color} flex items-center justify-center`}>
@@ -317,30 +383,68 @@ const ProfilePage = () => {
 
                         {activeTab === 'activity' && (
                             <div className="bg-white rounded-2xl shadow-lg p-8">
-                                <h2 className="text-2xl font-bold text-slate-900 mb-6">Recent Activity</h2>
-                                <div className="space-y-4">
-                                    {activities.map((activity, index) => (
-                                        <div key={index} className="flex items-center gap-4 p-4 bg-slate-50 rounded-xl hover:bg-slate-100 transition-colors">
-                                            <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${
-                                                activity.type === 'upload' ? 'bg-blue-100 text-blue-600' :
-                                                activity.type === 'share' ? 'bg-green-100 text-green-600' :
-                                                activity.type === 'download' ? 'bg-purple-100 text-purple-600' :
-                                                'bg-orange-100 text-orange-600'
-                                            }`}>
-                                                {activity.type === 'upload' ? <Upload size={20} /> :
-                                                 activity.type === 'share' ? <Share2 size={20} /> :
-                                                 activity.type === 'download' ? <Download size={20} /> :
-                                                 <FileText size={20} />}
-                                            </div>
-                                            <div className="flex-1">
-                                                <p className="font-medium text-slate-900">
-                                                    {activity.action} <span className="text-blue-600">{activity.file}</span>
-                                                </p>
-                                                <p className="text-sm text-slate-500">{activity.time}</p>
-                                            </div>
-                                        </div>
-                                    ))}
+                                <div className="flex justify-between items-center mb-6">
+                                    <h2 className="text-2xl font-bold text-slate-900">
+                                        Recent Activity
+                                        <span className="text-sm font-normal text-slate-500 ml-2">
+                                            (Last 24 hours)
+                                        </span>
+                                    </h2>
+                                    <button 
+                                        onClick={refreshRecentFiles}
+                                        disabled={isLoadingFiles}
+                                        className="flex items-center gap-2 text-blue-600 hover:text-blue-800 text-sm font-medium disabled:opacity-50"
+                                    >
+                                        <Activity size={16} className={isLoadingFiles ? 'animate-spin' : ''} />
+                                        {isLoadingFiles ? 'Loading...' : 'Refresh'}
+                                    </button>
                                 </div>
+                                
+                                <div className="space-y-3">
+                                    {isLoadingFiles ? (
+                                        <div className="text-center py-8">
+                                            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-3"></div>
+                                            <p className="text-slate-500">Loading recent activity...</p>
+                                        </div>
+                                    ) : recentFiles.length > 0 ? (
+                                        recentFiles.slice(0, 10).map((file) => (
+                                            <div key={file.id} className="flex items-center gap-4 p-4 bg-slate-50 rounded-xl hover:bg-slate-100 transition-colors">
+                                                <div className="text-2xl">
+                                                    {getFileIcon(file.contentType)}
+                                                </div>
+                                                <div className="flex-1 min-w-0">
+                                                    <p className="font-medium text-slate-900 truncate">
+                                                        Uploaded <span className="text-blue-600">{file.filename}</span>
+                                                    </p>
+                                                    <div className="flex items-center gap-2 text-sm text-slate-500">
+                                                        <span>{formatTimeAgo(file.uploadedAt)}</span>
+                                                        <span>•</span>
+                                                        <span>{formatFileSize(file.size)}</span>
+                                                    </div>
+                                                </div>
+                                                <div className="bg-blue-100 text-blue-600 w-10 h-10 rounded-xl flex items-center justify-center">
+                                                    <Upload size={20} />
+                                                </div>
+                                            </div>
+                                        ))
+                                    ) : (
+                                        <div className="text-center py-12">
+                                            <FileText className="mx-auto h-16 w-16 text-slate-300 mb-4" />
+                                            <p className="text-slate-500 text-lg mb-2">No recent activity</p>
+                                            <p className="text-slate-400 text-sm">
+                                                Upload some files to see your activity here
+                                            </p>
+                                        </div>
+                                    )}
+                                </div>
+                                
+                                {recentFiles.length > 10 && (
+                                    <div className="text-center pt-6">
+                                        <button className="text-blue-600 hover:text-blue-800 text-sm font-medium">
+                                            View all {recentFiles.length} recent files →
+                                        </button>
+                                    </div>
+                                )}
                             </div>
                         )}
 
