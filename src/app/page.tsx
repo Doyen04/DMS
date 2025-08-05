@@ -4,16 +4,16 @@ import Footer from "@/component/footer";
 import HeaderProvider from "@/providers/HeaderProvider";
 import Link from "next/link";
 import Image from "next/image";
-import useUserAuth from "@/hooks/useUserAuth";
-import SignOut from "@/action/signout";
+// import useUserAuth from "@/hooks/useUserAuth";
+// import SignOut from "@/action/signout";
 
 export default function Home() {
-    const {  logout } = useUserAuth()
+    // const {  logout } = useUserAuth()
 
-    const handleSignOut = async () => {
-        logout()
-        await SignOut()
-    }
+    // const handleSignOut = async () => {
+    //     logout()
+    //     await SignOut()
+    // }
     return (
         <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
             <HeaderProvider />
@@ -58,7 +58,7 @@ export default function Home() {
 
                             {true ?
                                 <button
-                                    onClick={handleSignOut}
+                                    onClick={undefined}
                                     className="px-8 py-4 border-2 border-slate-300 text-slate-700 font-semibold rounded-xl hover:border-blue-300 hover:text-blue-600 transition-all duration-300 backdrop-blur-sm bg-white/70"
                                 >
                                     Sign Out
