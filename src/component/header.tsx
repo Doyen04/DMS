@@ -4,29 +4,17 @@ import Link from "next/link";
 import useUserAuth from "@/hooks/useUserAuth";
 import SignOut from "@/action/signout";
 import Logo from "@/ui/logo";
-import { getSession } from "@/action/getSession";
+import { useUser } from "@/hooks/useUser";
 
-const Header: React.FC = async () => {
-    const session = await getSession()
-    const [isScrolled, setIsScrolled] = useState(false)
-    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+
+const Header: React.FC = () => {
     const {
         isAuthenticated,
-        setSession,
+        session,
         logout
-    } = useUserAuth()
-
-    useEffect(() => {
-        console.log('User session:', session)
-        return setSession(session ? {
-            ...session,
-            user: {
-                id: session.user?.id || '',
-                email: session.user?.email || '',
-                fullname: session.user?.fullname || ''
-            }
-        } : null);
-    }, [session, setSession])
+    } = useUser()
+    const [isScrolled, setIsScrolled] = useState(false)
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
     useEffect(() => {
         const handleScroll = () => {
