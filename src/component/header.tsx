@@ -1,7 +1,6 @@
 'use client'
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import useUserAuth from "@/hooks/useUserAuth";
 import SignOut from "@/action/signout";
 import Logo from "@/ui/logo";
 import { useUser } from "@/hooks/useUser";
