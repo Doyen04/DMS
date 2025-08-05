@@ -19,7 +19,7 @@ const handleResetPassword = async (prevState: ResetState, formData: FormData): P
                 email: email
             }
         })
-    console.log(user);
+    console.log(user, 'inside reset');
     if (!validation.success) {
         const result = validation.error.flatten().fieldErrors;
         return {
@@ -34,7 +34,7 @@ const handleResetPassword = async (prevState: ResetState, formData: FormData): P
 
     try {
         const result = await sendResetEmail(user)
-        console.log(result);
+        console.log(result, 'result of send');
 
         if (result.error) {
             return {
