@@ -2,10 +2,10 @@
 
 import { useState, useEffect } from 'react'
 import { Camera, Edit3, Mail, Save, UserCircle, X } from 'lucide-react'
-import { useUserAuth } from '@/hooks/useUserAuth'
+import { useUser } from '@/hooks/useUser'
 
 const ProfilePage = () => {
-    const { session, isAuthenticated } = useUserAuth()
+    const { session, isAuthenticated } = useUser()
     const [isEditing, setIsEditing] = useState(false)
     const [formData, setFormData] = useState({
         fullname: '',
