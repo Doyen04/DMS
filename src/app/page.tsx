@@ -55,13 +55,12 @@ export default function Home() {
                             </Link>
                             
                             {isAuthenticated?
-                                <Link 
-                                href=''
+                                <button 
                                 onClick={handleSignOut}
                                 className="px-8 py-4 border-2 border-slate-300 text-slate-700 font-semibold rounded-xl hover:border-blue-300 hover:text-blue-600 transition-all duration-300 backdrop-blur-sm bg-white/70"
                             >
                                 Sign Out
-                            </Link>
+                            </button>
                             :<Link 
                                 href="/signin"
                                 className="px-8 py-4 border-2 border-slate-300 text-slate-700 font-semibold rounded-xl hover:border-blue-300 hover:text-blue-600 transition-all duration-300 backdrop-blur-sm bg-white/70"
