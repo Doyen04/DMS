@@ -346,7 +346,7 @@ export default function SharedFilesPage() {
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                     <div>
                         <h1 className="text-2xl font-semibold text-gray-900">Shared Files</h1>
-                        <p className="text-gray-600 mt-1">Manage files you've shared and files shared with you</p>
+                        <p className="text-gray-600 mt-1">Manage files you&apos;ve shared and files shared with you</p>
                     </div>
                 </div>
             </div>

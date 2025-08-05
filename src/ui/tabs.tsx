@@ -1,93 +1,93 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext } from 'react';
 import { cn } from '@/utils/classMerge';
 
 interface TabsContextType {
-  value: string;
-  onValueChange: (value: string) => void;
+    value: string;
+    onValueChange: (value: string) => void;
 }
 
 const TabsContext = createContext<TabsContextType | undefined>(undefined);
 
 interface TabsProps {
-  value: string;
-  onValueChange: (value: string) => void;
-  className?: string;
-  children: React.ReactNode;
+    value: string;
+    onValueChange: (value: string) => void;
+    className?: string;
+    children: React.ReactNode;
 }
 
 export const Tabs: React.FC<TabsProps> = ({ value, onValueChange, className, children }) => {
-  return (
-    <TabsContext.Provider value={{ value, onValueChange }}>
-      <div className={cn('w-full', className)}>
-        {children}
-      </div>
-    </TabsContext.Provider>
-  );
+    return (
+        <TabsContext.Provider value={{ value, onValueChange }}>
+            <div className={cn('w-full', className)}>
+                {children}
+            </div>
+        </TabsContext.Provider>
+    );
 };
 
 interface TabsListProps extends React.HTMLAttributes<HTMLDivElement> {
-  children: React.ReactNode;
+    children: React.ReactNode;
 }
 
 export const TabsList: React.FC<TabsListProps> = ({ className, children, ...props }) => {
-  return (
-    <div
-      className={cn('inline-flex h-10 items-center justify-center rounded-md bg-gray-100 p-1 text-gray-500', className)}
-      {...props}
-    >
-      {children}
-    </div>
-  );
+    return (
+        <div
+            className={cn('inline-flex h-10 items-center justify-center rounded-md bg-gray-100 p-1 text-gray-500', className)}
+            {...props}
+        >
+            {children}
+        </div>
+    );
 };
 
 interface TabsTriggerProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  value: string;
-  children: React.ReactNode;
+    value: string;
+    children: React.ReactNode;
 }
 
 export const TabsTrigger: React.FC<TabsTriggerProps> = ({ value, className, children, ...props }) => {
-  const context = useContext(TabsContext);
-  if (!context) throw new Error('TabsTrigger must be used within Tabs');
-  
-  const { value: activeValue, onValueChange } = context;
-  const isActive = activeValue === value;
+    const context = useContext(TabsContext);
+    if (!context) throw new Error('TabsTrigger must be used within Tabs');
 
-  return (
-    <button
-      className={cn(
-        'inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium ring-offset-white transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50',
-        isActive
-          ? 'bg-white text-gray-950 shadow-sm'
-          : 'text-gray-500 hover:text-gray-900',
-        className
-      )}
-      onClick={() => onValueChange(value)}
-      {...props}
-    >
-      {children}
-    </button>
-  );
+    const { value: activeValue, onValueChange } = context;
+    const isActive = activeValue === value;
+
+    return (
+        <button
+            className={cn(
+                'inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium ring-offset-white transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50',
+                isActive
+                    ? 'bg-white text-gray-950 shadow-sm'
+                    : 'text-gray-500 hover:text-gray-900',
+                className
+            )}
+            onClick={() => onValueChange(value)}
+            {...props}
+        >
+            {children}
+        </button>
+    );
 };
 
 interface TabsContentProps extends React.HTMLAttributes<HTMLDivElement> {
-  value: string;
-  children: React.ReactNode;
+    value: string;
+    children: React.ReactNode;
 }
 
 export const TabsContent: React.FC<TabsContentProps> = ({ value, className, children, ...props }) => {
-  const context = useContext(TabsContext);
-  if (!context) throw new Error('TabsContent must be used within Tabs');
-  
-  const { value: activeValue } = context;
-  
-  if (activeValue !== value) return null;
+    const context = useContext(TabsContext);
+    if (!context) throw new Error('TabsContent must be used within Tabs');
 
-  return (
-    <div
-      className={cn('mt-2 ring-offset-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 focus-visible:ring-offset-2', className)}
-      {...props}
-    >
-      {children}
-    </div>
-  );
+    const { value: activeValue } = context;
+
+    if (activeValue !== value) return null;
+
+    return (
+        <div
+            className={cn('mt-2 ring-offset-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 focus-visible:ring-offset-2', className)}
+            {...props}
+        >
+            {children}
+        </div>
+    );
 };
