@@ -37,7 +37,7 @@ export async function sendResetEmail(user: User | null): Promise<SendResetEmailR
             subject: 'Password Reset Request',
             react: await ResetEmailTemplate({ firstName: user.fullname as string, resetUrl: resetUrl }),
         });
-          console.log(data, 'data->error', error, 'result of send');
+          console.log(data, 'data->error', error, 'result of send', error?.message);
         return {
             error: error ? error.message : null,
             data: data,
