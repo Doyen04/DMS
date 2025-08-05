@@ -1,9 +1,10 @@
 'use client'
 
 import Footer from "@/component/footer";
-import HeaderProvider from "@/providers/HeaderProvider";
+// import HeaderProvider from "@/providers/HeaderProvider";
 import Link from "next/link";
 import Image from "next/image";
+import Header from "@/component/header";
 // import useUserAuth from "@/hooks/useUserAuth";
 // import SignOut from "@/action/signout";
 
@@ -16,7 +17,7 @@ export default function Home() {
     // }
     return (
         <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
-            <HeaderProvider />
+            <Header />
 
             {/* Hero Section */}
             <main className="relative overflow-hidden">
