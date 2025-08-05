@@ -178,7 +178,7 @@ const ProfilePage = () => {
                 {/* Header Section */}
                 <div className="bg-white rounded-3xl shadow-xl overflow-hidden">
                     {/* Cover Photo */}
-                    <div className="h-48 bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 relative">
+                    <div className="h-49 bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 relative">
                         <div className="absolute inset-0 bg-black/20"></div>
                         <div className="absolute top-6 right-6">
                             {!isEditing ? (
@@ -271,7 +271,7 @@ const ProfilePage = () => {
                             </div>
 
                             {/* Premium Badge */}
-                            <div className="flex items-center gap-2 bg-gradient-to-r from-amber-400 to-orange-500 text-white px-6 py-3 rounded-2xl shadow-lg lg:mb-4">
+                            <div className="mt-1 flex items-center gap-2 bg-gradient-to-r from-amber-400 to-orange-500 text-white px-6 py-3 rounded-2xl shadow-lg lg:mb-4">
                                 <Award size={20} />
                                 <span className="font-semibold">Premium Member</span>
                             </div>
