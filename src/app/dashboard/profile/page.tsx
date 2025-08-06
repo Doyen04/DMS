@@ -211,7 +211,7 @@ const ProfilePage = () => {
                     </div>
 
                     {/* Profile Info */}
-                    <div className="px-8 pb-8">
+                    <div className="p-7">
                         <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between -mt-16 relative z-10">
                             <div className="flex flex-col lg:flex-row lg:items-end gap-6">
                                 {/* Avatar */}
